@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:murthaji/Api/api.dart';
+import 'package:murthaji/Model/AuthenticationModel.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:murthaji/Screens/loginPage.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationPage extends StatefulWidget {
-  RegistrationPage({Key key}) : super(key: key);
+  RegistrationPage({Key? key}) : super(key: key);
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
 }
@@ -59,17 +62,51 @@ class _RegistrationPageState extends State<RegistrationPage> {
               height: 30,
             ),
             buttonWidget(
-                text: 'Sign Up',
-                ontap: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Tabscreen()),
-                      (route) => false);
+                text: Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                ontap: () async {
+                  if (fname.text.isNotEmpty &&
+                      lname.text.isNotEmpty &&
+                      email.text.isNotEmpty &&
+                      pass.text.isNotEmpty &&
+                      cpass.text.isNotEmpty) {
+                    if (pass.text == cpass.text) {
+                      AuthenticationClass? data =
+                          await Authentication().registrationApi(
+                        fname: fname.text,
+                        lname: lname.text,
+                        email: email.text,
+                        pass: pass.text,
+                        cpass: cpass.text,
+                      );
+                      if (data.data?.status == '200') {
+                        toastFn(comment: data.data?.message);
+                        SharedPreferences pref =
+                            await SharedPreferences.getInstance();
+                        pref.setString(
+                            'email', "${data.data?.response?.usermail}");
+                        pref.setString('id', "${data.data?.response?.userid}");
+
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Tabscreen()),
+                            (route) => false);
+                      } else {
+                        toastFn(comment: data.data?.message);
+                      }
+                    } else {
+                      toastFn(comment: "Passwords are not same");
+                    }
+                  } else {
+                    toastFn(comment: "Fill all feilds to continue");
+                  }
                 }),
-            SizedBox(
-              height: 30,
-            ),
-            Text('Forgot your password?'),
             SizedBox(
               height: 30,
             ),

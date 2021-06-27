@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murthaji/Screens/landingPage.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({Key key}) : super(key: key);
+  SplashScreen({Key? key});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

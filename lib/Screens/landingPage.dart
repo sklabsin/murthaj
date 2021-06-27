@@ -6,7 +6,7 @@ import 'package:murthaji/Screens/registrationPage.dart';
 import 'loginPage.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({Key key}) : super(key: key);
+  LandingPage({Key? key}) : super(key: key);
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -64,7 +64,13 @@ class _LandingPageState extends State<LandingPage> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 30),
                   child: buttonWidget(
-                      text: 'Login',
+                      text: Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
                       ontap: () {
                         Navigator.push(
                             context,

@@ -11,7 +11,7 @@ Future<void> main() async {
       supportedLocales: [Locale('en', 'US'), Locale('ar', 'AE')],
       path:
           'assets/translations', // <-- change the path of the translation files
-      fallbackLocale: Locale('en', 'us'),
+      fallbackLocale: Locale('en', 'US'),
       child: MyApp(),
     ),
   );

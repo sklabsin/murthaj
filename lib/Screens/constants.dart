@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Color colorblue = Color(0xff2682AB);
 
-ElevatedButton buttonWidget({Function ontap, String text}) {
+ElevatedButton buttonWidget({Function()? ontap, Widget? text, Color? color}) {
+  Color colors = (color == null) ? Color(0xff2682AB) : color;
   return ElevatedButton(
     onPressed: ontap,
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(Color(0xff2682AB)),
+      backgroundColor: MaterialStateProperty.all(colors),
       shape: MaterialStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -16,21 +18,20 @@ ElevatedButton buttonWidget({Function ontap, String text}) {
     child: Container(
       height: 56,
       child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ),
+        child: text!,
       ),
     ),
   );
 }
 
-Container textBoxWidget(
-    {BuildContext context, TextEditingController controller, String hint}) {
+Container textBoxWidget({
+  BuildContext? context,
+  TextEditingController? controller,
+  String? hint,
+  TextInputType? type,
+}) {
   return Container(
-    width: MediaQuery.of(context).size.width,
+    width: MediaQuery.of(context!).size.width,
     height: 60,
     decoration: BoxDecoration(
       color: Color(0xffF2F2F2),
@@ -46,5 +47,27 @@ Container textBoxWidget(
             EdgeInsets.only(left: 25, bottom: 11, top: 20, right: 15),
       ),
     ),
+  );
+}
+
+Row topSection({String? heading}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        heading!,
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      Image.asset('assets/images/cart.png')
+    ],
+  );
+}
+
+toastFn({String? comment}) {
+  return Fluttertoast.showToast(
+    msg: comment!,
+    toastLength: Toast.LENGTH_SHORT,
+    backgroundColor: colorblue,
+    fontSize: 14,
   );
 }

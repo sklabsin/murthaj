@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:murthaji/Api/api.dart';
+import 'package:murthaji/Model/AuthenticationModel.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:murthaji/Screens/registrationPage.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -43,17 +46,54 @@ class _LoginPageState extends State<LoginPage> {
               height: 30,
             ),
             buttonWidget(
-                text: 'Login',
-                ontap: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Tabscreen()),
-                      (route) => false);
-                }),
+              text: Text(
+                'Login',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+              ),
+              ontap: () async {
+                if (email.text.isNotEmpty && pass.text.isNotEmpty) {
+                  AuthenticationClass data = await Authentication().loginApi(
+                    email: email.text,
+                    pass: pass.text,
+                  );
+                  if (data.data?.status == '200') {
+                    toastFn(comment: data.data?.message);
+                    SharedPreferences pref =
+                        await SharedPreferences.getInstance();
+                    pref.setString('email', "${data.data?.response?.usermail}");
+                    pref.setString('id', "${data.data?.response?.userid}");
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Tabscreen()),
+                        (route) => false);
+                  } else {
+                    toastFn(comment: data.data?.message);
+                  }
+                } else {
+                  toastFn(comment: 'Fill all feilds to continue');
+                }
+              },
+            ),
             SizedBox(
               height: 30,
             ),
-            Text('Forgot your password?'),
+            InkWell(
+              onTap: () async {
+                if (email.text.isNotEmpty) {
+                  String msg = await Authentication().forgotPasswordApi(
+                    email: email.text,
+                  );
+                  toastFn(comment: msg);
+                } else {
+                  toastFn(comment: 'Fill the email');
+                }
+              },
+              child: Text('Forgot your password?'),
+            ),
             SizedBox(
               height: 30,
             ),
