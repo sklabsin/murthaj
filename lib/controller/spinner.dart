@@ -72,11 +72,11 @@ class SpinWidget extends StatelessWidget {
 }
 
 showSpinner() {
-  SpinController controller = Get.put(SpinController());
+  SpinController controller = Get.find<SpinController>();
   controller.show();
 }
 
 hideSpinner() {
-  SpinController controller = Get.put(SpinController());
+  SpinController controller = Get.find<SpinController>();
   controller.hide();
 }

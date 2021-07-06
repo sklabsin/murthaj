@@ -10,6 +10,7 @@ import 'package:murthaji/Screens/single_product.dart';
 import 'package:murthaji/extras/gridViewLoading.dart';
 import 'package:murthaji/extras/screenSizes.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:murthaji/extras/containerLoader.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -74,8 +75,9 @@ class _HomePageState extends State<HomePage> {
                         return Landing(
                           data: snapshot.data!.data!.response,
                         );
-                      } else
-                        return Container();
+                      } else {
+                        return containerLoading(context);
+                      }
                     },
                   )),
               SizedBox(
@@ -145,7 +147,8 @@ class _HomePageState extends State<HomePage> {
                         child: GridView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.data!.response!.length,
+                          // itemCount: snapshot.data!.data!.response!.length,
+                          itemCount: 6,
                           physics: NeverScrollableScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -168,13 +171,14 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 20,
               ),
+              Divider(),
               FutureBuilder<BottomSliderClass>(
                 future: Home().bottomSliderApi(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Container(
                       height: 150,
-                      width: double.infinity,
+                      width: width(context),
                       child: CarouselSlider(
                         options: CarouselOptions(
                           autoPlayAnimationDuration: Duration(seconds: 1),
@@ -212,33 +216,37 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else {
-                    return Shimmer.fromColors(
-                      highlightColor: Colors.grey,
-                      baseColor: Colors.white,
-                      child: Container(
-                        height: 140,
-                        width: double.infinity,
-                      ),
+                    return Container(
+                      height: 150,
+                      width: width(context),
+                      child: containerLoading(context),
                     );
                   }
                 },
               ),
+              Divider(),
               SizedBox(
-                height: 20,
+                height: 25,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 17, vertical: 20),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(border: Border.all(color: colorblue)),
+                margin: EdgeInsets.symmetric(horizontal: 17),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'New Arrivals',
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
+                    Text(
+                      'View all',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xffFC6011),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -255,7 +263,8 @@ class _HomePageState extends State<HomePage> {
                         child: GridView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.data!.response!.length,
+                          // itemCount: snapshot.data!.data!.response!.length,
+                          itemCount: 6,
                           physics: NeverScrollableScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -290,18 +299,18 @@ class CardWidget extends StatelessWidget {
   Response? data;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SingleProduct(),
-          ),
-        );
-      },
-      child: Stack(
-        children: [
-          Container(
+    return Stack(
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SingleProduct(),
+              ),
+            );
+          },
+          child: Container(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 15),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -319,69 +328,74 @@ class CardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Image.asset(
-                    'assets/images/itemimg.png',
-                    fit: BoxFit.fill,
-                    height: height(context) * .23,
-                    width: (width(context) - 90) / 2,
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      "$imgurl" + "${data!.productImage!.split(',')[0]}",
+                      fit: BoxFit.fill,
+                      width: (width(context) - 90) / 2,
+                    ),
                   ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
                       data!.productName!,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      data!.productSellPrice!,
+                      "KD " + data!.productSellPrice!,
                       style: TextStyle(
-                          color: Color(0xff4a4b4d),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                        color: Color(0xff4a4b4d),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              width: 35,
-              height: 40,
-              child: LikeButton(
-                size: 24,
-                circleColor: CircleColor(
-                  start: Color(0xff1C477A),
-                  end: Color(0xff1C477A),
-                ),
-                bubblesColor: BubblesColor(
-                  dotPrimaryColor: Colors.red,
-                  dotSecondaryColor: Colors.red,
-                ),
-                // isLiked: true,
-                likeBuilder: (bool isLiked) {
-                  return Icon(
-                    isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: isLiked ? Colors.red : Color(0xff1C477A),
-                    size: 24,
-                  );
-                },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Container(
+            width: 35,
+            height: 40,
+            child: LikeButton(
+              size: 24,
+              circleColor: CircleColor(
+                start: Color(0xff1C477A),
+                end: Color(0xff1C477A),
               ),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Colors.red,
+                dotSecondaryColor: Colors.red,
+              ),
+              // isLiked: true,
+              likeBuilder: (bool isLiked) {
+                return Icon(
+                  isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: isLiked ? Colors.red : Color(0xff1C477A),
+                  size: 24,
+                );
+              },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -448,7 +462,7 @@ class _LandingState extends State<Landing> {
     for (int? i = 0; i! < widget.data!.length; i++) {
       _pages.add(
         Container(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
           decoration: BoxDecoration(
             image: DecorationImage(
               // image: AssetImage(slides[i]),
@@ -457,6 +471,37 @@ class _LandingState extends State<Landing> {
               ),
               fit: BoxFit.fill,
             ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.data![i].bannerTitle!,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.limeAccent[900],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.data![i].bannerShortdesc!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.limeAccent[900],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       );

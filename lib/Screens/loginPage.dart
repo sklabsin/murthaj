@@ -39,12 +39,20 @@ class _LoginPageState extends State<LoginPage> {
                 height: 45,
               ),
               textBoxWidget(
-                  hint: 'Your Email', context: context, controller: email),
+                hint: 'Your Email',
+                context: context,
+                controller: email,
+                type: TextInputType.emailAddress,
+              ),
               SizedBox(
                 height: 20,
               ),
               textBoxWidget(
-                  hint: 'Password', context: context, controller: pass),
+                hint: 'Password',
+                context: context,
+                controller: pass,
+                pass: true,
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -70,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                           await SharedPreferences.getInstance();
                       pref.setString(
                           'email', "${data.data?.response?.usermail}");
-                      pref.setString('id', "${data.data?.response?.userid}");
+                      pref.setString('uid', "${data.data?.response?.userid}");
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (context) => Tabscreen()),

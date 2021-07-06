@@ -1,14 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:flutter/scheduler.dart';
 import 'package:like_button/like_button.dart';
-import 'package:murthaji/Screens/TabBarScreens.dart/homePage.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:get/get.dart';
 import 'package:murthaji/controller/categoryController.dart';
-
+import 'package:murthaji/extras/screenSizes.dart';
 import '../single_product.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -70,13 +66,7 @@ class _LeftWidgetState extends State<LeftWidget> {
       child: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 24,
-            ),
-            Icon(Icons.arrow_back_ios),
-            SizedBox(
-              height: 20,
-            ),
+            Spacer(),
             Container(
               width: 55,
               height: MediaQuery.of(context).size.height - 190,
@@ -236,148 +226,149 @@ class RightBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 10, top: 10, bottom: 25),
+      margin: EdgeInsets.only(left: 4, top: 10, bottom: 25),
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-              child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 24,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 3,
-                    childAspectRatio: 2.7 / 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SingleProduct(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xffC1BCBC)),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              spreadRadius: 5,
-                              blurRadius: 5,
-                              offset: Offset(1, 2),
-                              color: Colors.grey.withOpacity(.1),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Stack(
-                              alignment: Alignment.topCenter,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(5, 13, 5, 0),
-                                  child: Image.asset(
-                                    'assets/images/itemimg.png',
-                                    fit: BoxFit.fill,
-                                    height:
-                                        (MediaQuery.of(context).size.height -
-                                                450) /
-                                            3,
-                                    width: (MediaQuery.of(context).size.width -
-                                            220) /
-                                        2,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Container(
-                                    padding: EdgeInsets.fromLTRB(0, 8, 4, 0),
-                                    width: 30,
-                                    child: LikeButton(
-                                      size: 20,
-                                      circleColor: CircleColor(
-                                        start: Color(0xff1C477A),
-                                        end: Color(0xff1C477A),
-                                      ),
-                                      bubblesColor: BubblesColor(
-                                        dotPrimaryColor: Colors.red,
-                                        dotSecondaryColor: Colors.red,
-                                      ),
-                                      likeBuilder: (bool isLiked) {
-                                        return Icon(
-                                          isLiked
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: isLiked
-                                              ? Colors.red
-                                              : Color(0xff1C477A),
-                                          size: 20,
-                                        );
-                                      },
-                                      // likeCount: 665,
-                                      countBuilder: (int? count, bool isLiked,
-                                          String text) {
-                                        var color = isLiked
-                                            ? Colors.deepPurpleAccent
-                                            : Colors.grey;
-                                        Widget result;
-                                        if (count == 0) {
-                                          result = Text(
-                                            "love",
-                                            style: TextStyle(color: color),
-                                          );
-                                        } else
-                                          result = Text(
-                                            text,
-                                            style: TextStyle(color: color),
-                                          );
-                                        return result;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '\$30.00',
-                                  style: TextStyle(
-                                      color: Color(0xff365EFF),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  'Lamp new',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+            child: GridView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 14,
+              physics: BouncingScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 3,
+                childAspectRatio: ScreenSize.gridRatio(context) * 2.3,
+              ),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SingleProduct(),
                       ),
                     );
-                  })),
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xffC1BCBC)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          spreadRadius: 5,
+                          blurRadius: 5,
+                          offset: Offset(1, 2),
+                          color: Colors.grey.withOpacity(.1),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Stack(
+                          alignment: Alignment.topCenter,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(5, 13, 5, 0),
+                              child: Image.asset(
+                                'assets/images/itemimg.png',
+                                fit: BoxFit.fill,
+                                height:
+                                    (MediaQuery.of(context).size.height - 450) /
+                                        3,
+                                width:
+                                    (MediaQuery.of(context).size.width - 220) /
+                                        2,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(0, 8, 4, 0),
+                                width: 30,
+                                child: LikeButton(
+                                  size: 20,
+                                  circleColor: CircleColor(
+                                    start: Color(0xff1C477A),
+                                    end: Color(0xff1C477A),
+                                  ),
+                                  bubblesColor: BubblesColor(
+                                    dotPrimaryColor: Colors.red,
+                                    dotSecondaryColor: Colors.red,
+                                  ),
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      isLiked
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: isLiked
+                                          ? Colors.red
+                                          : Color(0xff1C477A),
+                                      size: 20,
+                                    );
+                                  },
+                                  // likeCount: 665,
+                                  countBuilder:
+                                      (int? count, bool isLiked, String text) {
+                                    var color = isLiked
+                                        ? Colors.deepPurpleAccent
+                                        : Colors.grey;
+                                    Widget result;
+                                    if (count == 0) {
+                                      result = Text(
+                                        "love",
+                                        style: TextStyle(color: color),
+                                      );
+                                    } else
+                                      result = Text(
+                                        text,
+                                        style: TextStyle(color: color),
+                                      );
+                                    return result;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '\$30.00',
+                              style: TextStyle(
+                                  color: Color(0xff365EFF),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Lamp new',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
