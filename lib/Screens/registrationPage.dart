@@ -5,6 +5,7 @@ import 'package:murthaji/Model/AuthenticationModel.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:murthaji/Screens/loginPage.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
+import 'package:murthaji/controller/spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -76,6 +77,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       pass.text.isNotEmpty &&
                       cpass.text.isNotEmpty) {
                     if (pass.text == cpass.text) {
+                      showSpinner();
                       AuthenticationClass? data =
                           await Authentication().registrationApi(
                         fname: fname.text,
@@ -84,6 +86,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         pass: pass.text,
                         cpass: cpass.text,
                       );
+                      hideSpinner();
                       if (data.data?.status == '200') {
                         toastFn(comment: data.data?.message);
                         SharedPreferences pref =

@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 Color colorblue = Color(0xff2682AB);
+String imgurl = 'https://awadalmurtajijointkw.com/murtajishop_new/uploads/';
+height(context) {
+  return MediaQuery.of(context).size.height;
+}
+
+width(context) {
+  return MediaQuery.of(context).size.width;
+}
 
 ElevatedButton buttonWidget({Function()? ontap, Widget? text, Color? color}) {
   Color colors = (color == null) ? Color(0xff2682AB) : color;

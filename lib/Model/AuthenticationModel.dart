@@ -40,14 +40,16 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
-        response: Response.fromJson(json["responce"]),
+        response: json["status"] != "200"
+            ? Response()
+            : Response.fromJson(json["response"]),
         message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "responce": response!.toJson(),
-        "message": message,
+        "status": status ?? '',
+        "response": response!.toJson(),
+        "message": message ?? '',
       };
 }
 
@@ -63,9 +65,9 @@ class Response {
   String? userid;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
-        username: json["username"],
-        usermail: json["usermail"],
-        userid: json["userid"],
+        username: json["username"] ?? "",
+        usermail: json["usermail"] ?? "",
+        userid: json["userid"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
