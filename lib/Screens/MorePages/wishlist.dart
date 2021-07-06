@@ -76,12 +76,14 @@ class ProductItem extends StatelessWidget {
                 Spacer(),
                 Container(
                   child: Stack(children: [
-                    Image.asset(
-                      'assets/images/BG.png',
-                      fit: BoxFit.contain,
+                    Center(
+                      child: Image.asset(
+                        'assets/images/shopping-cart.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: EdgeInsets.only(left: 15),
                       child: Center(
                         child: Image.asset(
                           'assets/images/shopping-cart.png',
@@ -116,7 +118,7 @@ class ProductItem extends StatelessWidget {
           width: screenWidth,
           color: Color(0xfff8f8f8),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

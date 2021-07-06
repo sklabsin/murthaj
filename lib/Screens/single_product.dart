@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
-import 'dart:ui' as ui show ImageFilter;
 
 class SingleProduct extends StatefulWidget {
   const SingleProduct({Key? key}) : super(key: key);

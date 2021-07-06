@@ -1,8 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:murthaji/Api/api.dart';
+import 'package:murthaji/Model/HomePage/BottomSliderModel.dart';
+import 'package:murthaji/Model/HomePage/mostPopularModel.dart';
+import 'package:murthaji/Model/HomePage/topSliderModel.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:murthaji/Screens/single_product.dart';
+import 'package:murthaji/extras/containerLoader.dart';
+import 'package:murthaji/extras/gridViewLoading.dart';
+import 'package:murthaji/extras/screenSizes.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -14,23 +22,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController search = TextEditingController();
   PageController pageController = PageController();
-
-  var list = [
-    'Indoor Modern Deco',
-    'Modern Decor',
-    'Indoor Modern Deco',
-    'Modern Decor',
-    'Indoor Modern Deco',
-    'Modern Decor',
-  ];
-  final List<String> imgList = [
-    'https://images-eu.ssl-images-amazon.com/images/G/31/Img18/Tablets_RK/Lenovo/Shop_Now/D11371803_TabV7_750x375._CB439417305_.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuBQ-B5ds1IXksmp7PykXNgATo1KP4IYsj0liU_1mZox84vtXvXCjQC2NkX4IapvxBcGI&usqp=CAU',
-    'https://www.asiaone.com/sites/default/files/original_images/Jun2015/Gradient-Migme_a117532_2015june24_NR_tag.jpg',
-    'https://images-eu.ssl-images-amazon.com/images/G/31/img18/Wearables/Noise_ColorFit2_Fitness_Band/Shop_Now/1999/colorfit2_750x375.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGhvktK0O5wx_bvzHFuKANXObQ4jcJnMyVoNiRqSPveP30Lcz8bufcg53fC_sm8x8bsBI&usqp=CAU',
-    'https://newspaperads.ads2publish.com/wp-content/uploads/2019/01/log-on-to-gadgets-now-reflex-bands-fight-is-theirs-choice-is-yours-ad-ahmedabad-times-22-01-2019.png'
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +65,21 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                height: 200,
-                margin: EdgeInsets.only(top: 30),
-                width: double.infinity,
-                child: Landing(),
-              ),
+                  height: 200,
+                  margin: EdgeInsets.only(top: 30),
+                  width: double.infinity,
+                  child: FutureBuilder<TopSliderClass>(
+                    future: Home().topSliderApi(),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Landing(
+                          data: snapshot.data!.data!.response,
+                        );
+                      } else {
+                        return containerLoading(context);
+                      }
+                    },
+                  )),
               SizedBox(
                 height: 10,
               ),
@@ -133,106 +134,156 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 17),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: 6,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    crossAxisCount: 2,
-                    childAspectRatio: 1 / 1.3,
-                  ),
-                  itemBuilder: (context, int index) {
-                    return CardWidget(
-                      txt: list[index],
-                    );
-                  },
-                ),
-              ),
-              Container(
-                height: 3,
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
-                    BoxShadow(
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(1, 2),
-                      color: Color(0x33757575),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 135,
-                width: double.infinity,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    autoPlayAnimationDuration: Duration(seconds: 1),
-                    autoPlay: true,
-                    reverse: false,
-                    autoPlayInterval: Duration(seconds: 6),
-                    pauseAutoPlayOnTouch: true,
-                    // enlargeCenterPage: true,
-                  ),
-                  items: imgList
-                      .map(
-                        (item) => Container(
-                          child: Center(
-                            child: Image.network(
-                              item,
-                              fit: BoxFit.fill,
-                              width: MediaQuery.of(context).size.width - 50,
-                              height: 135,
-                            ),
+              FutureBuilder<MostPopularClass>(
+                  future: Home().mostPopularApi(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<MostPopularClass> snapshot) {
+                    if (snapshot.hasData) {
+                      var data = snapshot.data?.data;
+                      print(data?.response?.length.toString());
+                      return Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 17),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          // itemCount: snapshot.data!.data!.response!.length,
+                          itemCount: 6,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            crossAxisCount: 2,
+                            childAspectRatio: ScreenSize.gridRatio(context),
                           ),
+                          itemBuilder: (context, int index) {
+                            return CardWidget(
+                              data: data?.response?[index],
+                            );
+                          },
                         ),
-                      )
-                      .toList(),
-                ),
-              ),
+                      );
+                    } else {
+                      return loadingIndicatorGridView();
+                    }
+                  }),
               SizedBox(
                 height: 20,
               ),
+              Divider(),
+              FutureBuilder<BottomSliderClass>(
+                future: Home().bottomSliderApi(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      height: 150,
+                      width: width(context),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          autoPlayAnimationDuration: Duration(seconds: 1),
+                          autoPlay: true,
+                          reverse: false,
+                          viewportFraction: .93,
+                          autoPlayInterval: Duration(seconds: 6),
+                          pauseAutoPlayOnTouch: true,
+                          // enlargeCenterPage: true,
+                        ),
+                        items: snapshot.data?.data?.response
+                            ?.map(
+                              (item) => Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        "$imgurl" + "${item.middlebannerImage}",
+                                        fit: BoxFit.fill,
+                                        width: double.infinity,
+                                        height: 140,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      height: 150,
+                      width: width(context),
+                      child: containerLoading(context),
+                    );
+                  }
+                },
+              ),
+              Divider(),
+              SizedBox(
+                height: 25,
+              ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 17, vertical: 20),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(border: Border.all(color: colorblue)),
+                margin: EdgeInsets.symmetric(horizontal: 17),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Just For You',
+                      'New Arrivals',
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     Text(
-                      'New Arrivals',
+                      'View all',
                       style: TextStyle(
                         fontSize: 13,
+                        color: Color(0xffFC6011),
                       ),
-                    ),
-                    Text(
-                      'Offer',
-                      style: TextStyle(
-                        fontSize: 13,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               ),
+              FutureBuilder<MostPopularClass>(
+                  future: Home().newArrivalsApi(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<MostPopularClass> snapshot) {
+                    if (snapshot.hasData) {
+                      var data = snapshot.data?.data;
+                      print(data?.response?.length.toString());
+                      return Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 17),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          // itemCount: snapshot.data!.data!.response!.length,
+                          itemCount: 6,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            crossAxisCount: 2,
+                            childAspectRatio: ScreenSize.gridRatio(context),
+                          ),
+                          itemBuilder: (context, int index) {
+                            return CardWidget(
+                              data: data?.response?[index],
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return loadingIndicatorGridView();
+                    }
+                  }),
             ],
           ),
         ),
@@ -243,15 +294,14 @@ class _HomePageState extends State<HomePage> {
 
 // ignore: must_be_immutable
 class CardWidget extends StatelessWidget {
-  CardWidget({Key? key, this.txt});
+  CardWidget({Key? key, this.txt, this.data});
   String? txt;
+  Response? data;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Material(
-        borderRadius: BorderRadius.circular(20),
-        elevation: 3,
-        child: InkWell(
+    return Stack(
+      children: [
+        InkWell(
           onTap: () {
             Navigator.push(
               context,
@@ -261,16 +311,16 @@ class CardWidget extends StatelessWidget {
             );
           },
           child: Container(
-            padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 15),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                  spreadRadius: 5,
-                  blurRadius: 5,
-                  offset: Offset(1, 2),
-                  color: Color(0x33757575),
+                  spreadRadius: 2,
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                  color: Color(0x33757575).withOpacity(.2),
                 ),
               ],
             ),
@@ -278,81 +328,40 @@ class CardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Stack(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Image.asset(
-                        'assets/images/itemimg.png',
-                        fit: BoxFit.fill,
-                        height: 165,
-                        width: (MediaQuery.of(context).size.width - 120) / 2,
-                      ),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      "$imgurl" + "${data!.productImage!.split(',')[0]}",
+                      fit: BoxFit.fill,
+                      width: (width(context) - 90) / 2,
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        width: 35,
-                        child: LikeButton(
-                          size: 24,
-                          circleColor: CircleColor(
-                            start: Color(0xff1C477A),
-                            end: Color(0xff1C477A),
-                          ),
-                          bubblesColor: BubblesColor(
-                            dotPrimaryColor: Colors.red,
-                            dotSecondaryColor: Colors.red,
-                          ),
-                          likeBuilder: (bool isLiked) {
-                            return Icon(
-                              isLiked ? Icons.favorite : Icons.favorite_border,
-                              color: isLiked ? Colors.red : Color(0xff1C477A),
-                              size: 24,
-                            );
-                          },
-                          // likeCount: 665,
-                          countBuilder:
-                              (int? count, bool isLiked, String text) {
-                            var color =
-                                isLiked ? Colors.deepPurpleAccent : Colors.grey;
-                            Widget result;
-                            if (count == 0) {
-                              result = Text(
-                                "love",
-                                style: TextStyle(color: color),
-                              );
-                            } else
-                              result = Text(
-                                text,
-                                style: TextStyle(color: color),
-                              );
-                            return result;
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 8,
+                    ),
                     Text(
-                      txt!,
-                      maxLines: 1,
+                      data!.productName!,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                       ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      'KD 24.99',
+                      "KD " + data!.productSellPrice!,
                       style: TextStyle(
-                          color: Color(0xff4a4b4d),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                        color: Color(0xff4a4b4d),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -360,7 +369,33 @@ class CardWidget extends StatelessWidget {
             ),
           ),
         ),
-      ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Container(
+            width: 35,
+            height: 40,
+            child: LikeButton(
+              size: 24,
+              circleColor: CircleColor(
+                start: Color(0xff1C477A),
+                end: Color(0xff1C477A),
+              ),
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Colors.red,
+                dotSecondaryColor: Colors.red,
+              ),
+              // isLiked: true,
+              likeBuilder: (bool isLiked) {
+                return Icon(
+                  isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: isLiked ? Colors.red : Color(0xff1C477A),
+                  size: 24,
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -399,8 +434,8 @@ class TopWidgets extends StatelessWidget {
 }
 
 class Landing extends StatefulWidget {
-  Landing({Key? key});
-
+  Landing({Key? key, this.data});
+  List<SliderResponse>? data;
   @override
   _LandingState createState() => _LandingState();
 }
@@ -410,11 +445,7 @@ class _LandingState extends State<Landing> {
   PageController _controller = PageController();
 
   List<Widget> _pages = [];
-  List<String> slides = [
-    'assets/images/sliderimg.png',
-    'assets/images/sliderimg.png',
-    'assets/images/sliderimg.png'
-  ];
+
   _onchanged(int index) {
     setState(() {
       _currentPage = index;
@@ -428,27 +459,52 @@ class _LandingState extends State<Landing> {
   }
 
   addtoList() {
-    for (int i = 0; i < slides.length; i++) {
-      print(i);
-      (slides[i].isNotEmpty)
-          ? _pages.add(
-              Container(
-                padding: EdgeInsets.only(left: 20),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      slides[i],
-                    ),
-                    fit: BoxFit.fill,
-                  ),
+    for (int? i = 0; i! < widget.data!.length; i++) {
+      _pages.add(
+        Container(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              // image: AssetImage(slides[i]),
+              image: NetworkImage(
+                "${imgurl}" + "${widget.data![i].bannerImage!}",
+              ),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.data![i].bannerTitle!,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.limeAccent[900],
                 ),
               ),
-            )
-          : Container(
-              height: 190,
-              width: 180,
-              color: Colors.grey,
-            );
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.data![i].bannerShortdesc!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.limeAccent[900],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
     }
   }
 
@@ -478,7 +534,7 @@ class _LandingState extends State<Landing> {
                     _pages.length,
                     (int index) {
                       return Padding(
-                        padding: const EdgeInsets.all(7.0),
+                        padding: EdgeInsets.all(7.0),
                         child: AnimatedContainer(
                           duration: Duration(milliseconds: 200),
                           height: 10,
