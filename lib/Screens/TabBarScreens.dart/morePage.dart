@@ -9,14 +9,14 @@ import 'package:murthaji/Screens/MorePages/wishlist.dart';
 import 'package:murthaji/Screens/constants.dart';
 
 class MorePage extends StatefulWidget {
-  MorePage({Key? key}) : super(key: key);
+  MorePage({Key key}) : super(key: key);
 
   @override
   _MorePageState createState() => _MorePageState();
 }
 
 class _MorePageState extends State<MorePage> {
-  Language? language;
+  Language language;
 
   buildShowDialog(BuildContext context) {
     return showDialog(
@@ -36,11 +36,11 @@ class _MorePageState extends State<MorePage> {
                       Radio(
                           value: Language.English,
                           groupValue: language,
-                          onChanged: (Language? value) {
+                          onChanged: (Language value) {
                             print(value);
                             childState(() {
                               language = value;
-                              EasyLocalization.of(context)!
+                              EasyLocalization.of(context)
                                   .setLocale(Locale('en', 'US'));
                             });
                           })
@@ -53,11 +53,11 @@ class _MorePageState extends State<MorePage> {
                       Radio(
                           value: Language.Arabic,
                           groupValue: language,
-                          onChanged: (Language? value) {
+                          onChanged: (Language value) {
                             print(value);
                             childState(() {
                               language = value;
-                              EasyLocalization.of(context)!
+                              EasyLocalization.of(context)
                                   .setLocale(Locale('ar', 'AE'));
                             });
                           })
@@ -152,7 +152,7 @@ class _MorePageState extends State<MorePage> {
                             ),
                             Row(
                               children: [
-                                EasyLocalization.of(context)!.currentLocale ==
+                                EasyLocalization.of(context).currentLocale ==
                                         Locale('en', 'US')
                                     ? Text("English")
                                     : Text("Arabic"),
@@ -248,10 +248,10 @@ class _MorePageState extends State<MorePage> {
 }
 
 class MoreOption extends StatelessWidget {
-  MoreOption({Key? key, this.img, this.txt, this.ontap});
-  String? txt;
-  String? img;
-  Function()? ontap;
+  MoreOption({Key key, this.img, this.txt, this.ontap});
+  String txt;
+  String img;
+  Function() ontap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -264,7 +264,7 @@ class MoreOption extends StatelessWidget {
             Row(
               children: [
                 Image.asset(
-                  img!,
+                  img,
                   height: 25,
                   width: 25,
                   fit: BoxFit.contain,
@@ -273,7 +273,7 @@ class MoreOption extends StatelessWidget {
                   width: 20,
                 ),
                 Text(
-                  txt!,
+                  txt ?? '',
                   style: TextStyle(fontSize: 16),
                 ),
               ],

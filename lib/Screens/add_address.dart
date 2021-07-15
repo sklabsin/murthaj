@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'constants.dart';
 
 class AddAddress extends StatefulWidget {
-  const AddAddress({Key? key}) : super(key: key);
+  const AddAddress({Key key}) : super(key: key);
 
   @override
   _AddAddressState createState() => _AddAddressState();

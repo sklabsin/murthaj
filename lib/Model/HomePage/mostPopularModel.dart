@@ -15,7 +15,7 @@ class MostPopularClass {
     this.data,
   });
 
-  Data? data;
+  Data data;
 
   factory MostPopularClass.fromJson(Map<String, dynamic> json) =>
       MostPopularClass(
@@ -23,7 +23,7 @@ class MostPopularClass {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        "data": data.toJson(),
       };
 }
 
@@ -33,8 +33,8 @@ class Data {
     this.response,
   });
 
-  String? status;
-  List<Response>? response;
+  String status;
+  List<Response> response;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
@@ -44,24 +44,25 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "response": List<dynamic>.from(response!.map((x) => x.toJson())),
+        "response": List<dynamic>.from(response.map((x) => x.toJson())),
       };
 }
 
 class Response {
-  Response({
-    this.productId,
-    this.productSellPrice,
-    this.productName,
-    this.productNameArab,
-    this.productImage,
-  });
+  Response(
+      {this.productId,
+      this.productSellPrice,
+      this.productName,
+      this.productNameArab,
+      this.productImage,
+      this.wishliststatus});
 
-  String? productId;
-  String? productSellPrice;
-  String? productName;
-  String? productNameArab;
-  String? productImage;
+  String productId;
+  String productSellPrice;
+  String productName;
+  String productNameArab;
+  String productImage;
+  String wishliststatus;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         productId: json["product_id"],
@@ -69,6 +70,7 @@ class Response {
         productName: json["product_name"],
         productNameArab: json["product_name_arab"],
         productImage: json["product_image"],
+        wishliststatus: json["wishlist_status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,5 +79,6 @@ class Response {
         "product_name": productName,
         "product_name_arab": productNameArab,
         "product_image": productImage,
+        "wishlist_status": wishliststatus,
       };
 }

@@ -3,7 +3,7 @@ import 'package:murthaji/Screens/add_address.dart';
 import '../constants.dart';
 
 class AddressList extends StatefulWidget {
-  const AddressList({Key? key}) : super(key: key);
+  const AddressList({Key key}) : super(key: key);
 
   @override
   _AddressListState createState() => _AddressListState();
@@ -28,7 +28,7 @@ class _AddressListState extends State<AddressList> {
           'Address',
           style: Theme.of(context)
               .textTheme
-              .headline4!
+              .headline4
               .copyWith(color: Color(0xff4a4b4d), fontSize: 25),
         ),
       ),
@@ -90,7 +90,7 @@ class _AddressListState extends State<AddressList> {
 
 class AddressTile extends StatelessWidget {
   const AddressTile({
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override

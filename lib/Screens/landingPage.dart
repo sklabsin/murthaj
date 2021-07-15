@@ -6,7 +6,7 @@ import 'package:murthaji/Screens/registrationPage.dart';
 import 'loginPage.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({Key? key}) : super(key: key);
+  LandingPage({Key key}) : super(key: key);
 
   @override
   _LandingPageState createState() => _LandingPageState();

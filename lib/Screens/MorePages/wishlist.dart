@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class WishList extends StatefulWidget {
-  const WishList({Key? key}) : super(key: key);
+  const WishList({Key key}) : super(key: key);
 
   @override
   _WishListState createState() => _WishListState();
@@ -30,7 +30,7 @@ class _WishListState extends State<WishList> {
           'Wishlist',
           style: Theme.of(context)
               .textTheme
-              .headline4!
+              .headline4
               .copyWith(color: Color(0xff4a4b4d), fontSize: 25),
         ),
       ),
@@ -55,10 +55,10 @@ class _WishListState extends State<WishList> {
 }
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({
-    Key? key,
-    required this.screenWidth,
-  }) : super(key: key);
+  ProductItem({
+    Key key,
+    this.screenWidth,
+  });
 
   final double screenWidth;
 
@@ -137,7 +137,7 @@ class ProductItem extends StatelessWidget {
                     width: 165,
                     child: Text(
                       'CP Plus CCTV Camera',
-                      style: Theme.of(context).textTheme.headline4!.copyWith(
+                      style: Theme.of(context).textTheme.headline4.copyWith(
                           color: Color(0xff2682AB),
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
@@ -148,7 +148,7 @@ class ProductItem extends StatelessWidget {
                 Container(
                   child: Text(
                     'KD 100',
-                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                    style: Theme.of(context).textTheme.headline4.copyWith(
                         color: Color(0xff2682AB),
                         fontSize: 16,
                         fontWeight: FontWeight.bold),

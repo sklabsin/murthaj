@@ -17,7 +17,7 @@ class SpinController extends GetxController {
 
 class Spinner extends StatelessWidget {
   Spinner({this.child});
-  Widget? child;
+  Widget child;
 
   SpinController controller = Get.put(SpinController());
   @override
@@ -25,7 +25,7 @@ class Spinner extends StatelessWidget {
     return Obx(
       () => ModalProgressHUD(
         inAsyncCall: controller.spin.value,
-        child: child!,
+        child: child,
         color: Colors.black87,
         progressIndicator: SpinWidget(),
       ),

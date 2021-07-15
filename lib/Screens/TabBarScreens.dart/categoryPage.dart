@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:like_button/like_button.dart';
+import 'package:murthaji/Api/api.dart';
+import 'package:murthaji/Model/CategoryPage/MainCategoryModel.dart';
+import 'package:murthaji/Model/CategoryPage/subCategoryClass.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:get/get.dart';
 import 'package:murthaji/controller/categoryController.dart';
+import 'package:murthaji/extras/likeButton.dart';
 import 'package:murthaji/extras/screenSizes.dart';
 import '../single_product.dart';
 
@@ -13,6 +17,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  CategoryController controller = Get.put(CategoryController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +25,34 @@ class _CategoryPageState extends State<CategoryPage> {
       body: Container(
         child: Row(
           children: <Widget>[
-            LeftWidget(),
+            FutureBuilder<MainCategoryModel>(
+              future: CategoryApi().mainCategory(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return LeftWidget(
+                    data: snapshot.data,
+                  );
+                } else
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+              },
+            ),
             Expanded(
-              child: RightWidget(),
-            )
+              child: FutureBuilder<SubCategoryClass>(
+                future: CategoryApi().subCategory(id: '25'),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return RightWidget(
+                      data: snapshot.data,
+                    );
+                  } else
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -32,32 +61,34 @@ class _CategoryPageState extends State<CategoryPage> {
 }
 
 class LeftWidget extends StatefulWidget {
+  LeftWidget({this.data});
+  MainCategoryModel data = MainCategoryModel();
   @override
   _LeftWidgetState createState() => _LeftWidgetState();
 }
 
 class _LeftWidgetState extends State<LeftWidget> {
-  List<String> list = [
-    "My profile",
-    "Notifcation",
-    "Invoice",
-    "Home",
-    "My profile",
-    "Notifcation",
-    "Invoice",
-    "Home"
-  ];
+  // List<String> list = [
+  //   "My profile",
+  //   "Notifcation",
+  //   "Invoice",
+  //   "Home",
+  //   "My profile",
+  //   "Notifcation",
+  //   "Invoice",
+  //   "Home"
+  // ];
 
   CategoryController controller = Get.put(CategoryController());
 
-  int checkIndex = 0;
+  // int checkIndex = 0;
 
   @override
   void initState() {
-    checkIndex = list.length - 1;
+    // checkIndex = widget.data!.data!.response!.length - 1;
 
     super.initState();
-    SchedulerBinding.instance!.endOfFrame.then((value) {});
+    SchedulerBinding.instance.endOfFrame.then((value) {});
   }
 
   @override
@@ -82,41 +113,48 @@ class _LeftWidgetState extends State<LeftWidget> {
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Obx(
-                  () => Column(children: [
-                    for (int i = 0; i < list.length; i++)
-                      Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              controller.selectedindex.value = i;
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: (controller.selectedindex.value == i)
-                                    ? Colors.white.withOpacity(.8)
-                                    : Colors.transparent,
-                              ),
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: Text(
-                                  list[i],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: (controller.selectedindex.value == i)
-                                        ? colorblue
-                                        : Colors.white,
+                  () => Column(
+                    children: [
+                      for (int i = 0; i < widget.data.data.response.length; i++)
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                controller.selectedindex.value = i;
+                                controller.selectedIndexCId.value =
+                                    widget.data.data.response[i].categoryId;
+                                print(controller.selectedIndexCId.value);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: (controller.selectedindex.value == i)
+                                      ? Colors.white.withOpacity(.8)
+                                      : Colors.transparent,
+                                ),
+                                child: RotatedBox(
+                                  quarterTurns: -1,
+                                  child: Text(
+                                    widget.data.data.response[i].categoryLabel
+                                        .toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          (controller.selectedindex.value == i)
+                                              ? colorblue
+                                              : Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 15),
-                        ],
-                      )
-                  ]),
+                            SizedBox(height: 15),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -128,6 +166,8 @@ class _LeftWidgetState extends State<LeftWidget> {
 }
 
 class RightWidget extends StatefulWidget {
+  RightWidget({this.data});
+  SubCategoryClass data = SubCategoryClass();
   @override
   _RightWidgetState createState() => _RightWidgetState();
 }
@@ -146,7 +186,7 @@ class _RightWidgetState extends State<RightWidget>
         left: 15,
       ),
       child: DefaultTabController(
-        length: 6,
+        length: widget.data.data.response[0].subcat.length,
         initialIndex: 0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,24 +218,13 @@ class _RightWidgetState extends State<RightWidget>
                     ),
                   ),
                   tabs: <Widget>[
-                    Tab(
-                      text: "SubCategory",
-                    ),
-                    Tab(
-                      text: "SubCategory",
-                    ),
-                    Tab(
-                      text: "SubCategory",
-                    ),
-                    Tab(
-                      text: "SubCategory",
-                    ),
-                    Tab(
-                      text: "SubCategory",
-                    ),
-                    Tab(
-                      text: "SubCategory",
-                    ),
+                    for (int i = 0;
+                        i < widget.data.data.response[0].subcat.length;
+                        i++)
+                      Tab(
+                        text: widget
+                            .data.data.response[0].subcat[i].subcategoryName,
+                      ),
                   ],
                 ),
               ),
@@ -206,12 +235,12 @@ class _RightWidgetState extends State<RightWidget>
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  RightBody(),
-                  RightBody(),
-                  RightBody(),
-                  RightBody(),
-                  RightBody(),
-                  RightBody(),
+                  for (int i = 0;
+                      i < widget.data.data.response[0].subcat.length;
+                      i++)
+                    RightBody(
+                      prod: widget.data.data.response[0].subcat[i].prod,
+                    ),
                 ],
               ),
             )
@@ -223,6 +252,8 @@ class _RightWidgetState extends State<RightWidget>
 }
 
 class RightBody extends StatelessWidget {
+  RightBody({this.prod});
+  List<Prod> prod;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -234,137 +265,101 @@ class RightBody extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 14,
+              itemCount: prod.length,
               physics: BouncingScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisSpacing: 7,
+                mainAxisSpacing: 7,
                 crossAxisCount: 3,
                 childAspectRatio: ScreenSize.gridRatio(context) * 2.3,
               ),
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SingleProduct(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xffC1BCBC)),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 5,
-                          blurRadius: 5,
-                          offset: Offset(1, 2),
-                          color: Colors.grey.withOpacity(.1),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(5, 13, 5, 0),
-                              child: Image.asset(
-                                'assets/images/itemimg.png',
-                                fit: BoxFit.fill,
-                                height:
-                                    (MediaQuery.of(context).size.height - 450) /
-                                        3,
-                                width:
-                                    (MediaQuery.of(context).size.width - 220) /
-                                        2,
-                              ),
+                return Stack(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SingleProduct(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 8,
+                              offset: Offset(0, 2),
+                              color: Color(0x33757575).withOpacity(.2),
                             ),
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Container(
-                                padding: EdgeInsets.fromLTRB(0, 8, 4, 0),
-                                width: 30,
-                                child: LikeButton(
-                                  size: 20,
-                                  circleColor: CircleColor(
-                                    start: Color(0xff1C477A),
-                                    end: Color(0xff1C477A),
-                                  ),
-                                  bubblesColor: BubblesColor(
-                                    dotPrimaryColor: Colors.red,
-                                    dotSecondaryColor: Colors.red,
-                                  ),
-                                  likeBuilder: (bool isLiked) {
-                                    return Icon(
-                                      isLiked
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color: isLiked
-                                          ? Colors.red
-                                          : Color(0xff1C477A),
-                                      size: 20,
-                                    );
-                                  },
-                                  // likeCount: 665,
-                                  countBuilder:
-                                      (int? count, bool isLiked, String text) {
-                                    var color = isLiked
-                                        ? Colors.deepPurpleAccent
-                                        : Colors.grey;
-                                    Widget result;
-                                    if (count == 0) {
-                                      result = Text(
-                                        "love",
-                                        style: TextStyle(color: color),
-                                      );
-                                    } else
-                                      result = Text(
-                                        text,
-                                        style: TextStyle(color: color),
-                                      );
-                                    return result;
-                                  },
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: CachedNetworkImage(
+                                  imageUrl: "$imgurl" +
+                                      "${prod[index].productImage.split(',')[0]}",
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
+                                // Image.network(
+                                //   "$imgurl" +
+                                //       "${prod![index].productImage!.split(',')[0]}",
+                                // fit: BoxFit.fill,
+                                //   width: (width(context) - 90) / 2,),
                               ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  prod[index].productName,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "KD " + prod[index].productSellPrice,
+                                  style: TextStyle(
+                                    color: Color(0xff4a4b4d),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '\$30.00',
-                              style: TextStyle(
-                                  color: Color(0xff365EFF),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Lamp new',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: LikeSection(
+                        pid: prod[index].productId,
+                        wishlistStatus: prod[index].wishlist_status,
+                      ),
+                    ),
+                  ],
                 );
               },
             ),

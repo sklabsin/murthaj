@@ -9,11 +9,11 @@ import 'package:murthaji/Screens/constants.dart';
 import 'package:murthaji/Screens/single_product.dart';
 import 'package:murthaji/extras/containerLoader.dart';
 import 'package:murthaji/extras/gridViewLoading.dart';
+import 'package:murthaji/extras/likeButton.dart';
 import 'package:murthaji/extras/screenSizes.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         return Landing(
-                          data: snapshot.data!.data!.response,
+                          data: snapshot.data.data.response,
                         );
                       } else {
                         return containerLoading(context);
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           itemBuilder: (context, int index) {
                             return CardWidget(
-                              data: data?.response?[index],
+                              data: data.response[index],
                             );
                           },
                         ),
@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           itemBuilder: (context, int index) {
                             return CardWidget(
-                              data: data?.response?[index],
+                              data: data?.response[index],
                             );
                           },
                         ),
@@ -294,9 +294,10 @@ class _HomePageState extends State<HomePage> {
 
 // ignore: must_be_immutable
 class CardWidget extends StatelessWidget {
-  CardWidget({Key? key, this.txt, this.data});
-  String? txt;
-  Response? data;
+  CardWidget({Key key, this.txt, this.data});
+  String txt;
+  Response data;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -332,7 +333,7 @@ class CardWidget extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
-                      "$imgurl" + "${data!.productImage!.split(',')[0]}",
+                      "$imgurl" + "${data.productImage.split(',')[0]}",
                       fit: BoxFit.fill,
                       width: (width(context) - 90) / 2,
                     ),
@@ -345,7 +346,7 @@ class CardWidget extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      data!.productName!,
+                      data.productName ?? '',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -356,7 +357,7 @@ class CardWidget extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      "KD " + data!.productSellPrice!,
+                      "KD " + data.productSellPrice ?? '',
                       style: TextStyle(
                         color: Color(0xff4a4b4d),
                         fontSize: 14,
@@ -371,28 +372,9 @@ class CardWidget extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.topRight,
-          child: Container(
-            width: 35,
-            height: 40,
-            child: LikeButton(
-              size: 24,
-              circleColor: CircleColor(
-                start: Color(0xff1C477A),
-                end: Color(0xff1C477A),
-              ),
-              bubblesColor: BubblesColor(
-                dotPrimaryColor: Colors.red,
-                dotSecondaryColor: Colors.red,
-              ),
-              // isLiked: true,
-              likeBuilder: (bool isLiked) {
-                return Icon(
-                  isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: isLiked ? Colors.red : Color(0xff1C477A),
-                  size: 24,
-                );
-              },
-            ),
+          child: LikeSection(
+            pid: data.productId,
+            wishlistStatus: data.wishliststatus,
           ),
         ),
       ],
@@ -401,9 +383,9 @@ class CardWidget extends StatelessWidget {
 }
 
 class TopWidgets extends StatelessWidget {
-  TopWidgets({this.name, this.img, Key? key});
-  String? img;
-  String? name;
+  TopWidgets({this.name, this.img, Key key});
+  String img;
+  String name;
 
   @override
   Widget build(BuildContext context) {
@@ -422,20 +404,20 @@ class TopWidgets extends StatelessWidget {
               color: Color(0xff141414).withOpacity(.7),
             ),
           ),
-          child: Image.asset(img!),
+          child: Image.asset(img),
         ),
         SizedBox(
           height: 8,
         ),
-        Text(name!)
+        Text(name ?? '')
       ],
     );
   }
 }
 
 class Landing extends StatefulWidget {
-  Landing({Key? key, this.data});
-  List<SliderResponse>? data;
+  Landing({Key key, this.data});
+  List<SliderResponse> data;
   @override
   _LandingState createState() => _LandingState();
 }
@@ -459,7 +441,7 @@ class _LandingState extends State<Landing> {
   }
 
   addtoList() {
-    for (int? i = 0; i! < widget.data!.length; i++) {
+    for (int i = 0; i < widget.data.length; i++) {
       _pages.add(
         Container(
           padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
@@ -467,7 +449,7 @@ class _LandingState extends State<Landing> {
             image: DecorationImage(
               // image: AssetImage(slides[i]),
               image: NetworkImage(
-                "${imgurl}" + "${widget.data![i].bannerImage!}",
+                "${imgurl}" + "${widget.data[i].bannerImage}",
               ),
               fit: BoxFit.fill,
             ),
@@ -477,7 +459,7 @@ class _LandingState extends State<Landing> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.data![i].bannerTitle!,
+                widget.data[i].bannerTitle ?? "",
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -489,7 +471,7 @@ class _LandingState extends State<Landing> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.data![i].bannerShortdesc!,
+                      widget.data[i].bannerShortdesc ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

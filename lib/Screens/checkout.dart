@@ -4,7 +4,7 @@ import 'package:murthaji/Screens/tabScreen.dart';
 import 'MorePages/my_order.dart';
 
 class Checkout extends StatefulWidget {
-  const Checkout({Key? key}) : super(key: key);
+  const Checkout({Key key}) : super(key: key);
 
   @override
   _CheckoutState createState() => _CheckoutState();
@@ -49,10 +49,7 @@ class _CheckoutState extends State<Checkout> {
                     ),
                     Text(
                       'Delivery Address',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 15),
+                      style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(
                       height: 15,
@@ -65,26 +62,20 @@ class _CheckoutState extends State<Checkout> {
                             width: screenWidth - 100,
                             child: Text('sharq Kuwait',
                                 maxLines: 2,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
-                                        color: Color(0xff4a4b4d),
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                    color: Color(0xff4a4b4d),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold)),
                           ),
                           Spacer(),
                           Align(
                             alignment: Alignment.bottomRight,
                             child: Text(
                               'Change',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(
-                                      color: Color(0xff2682AB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Color(0xff2682AB),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -112,10 +103,7 @@ class _CheckoutState extends State<Checkout> {
                     ),
                     Text(
                       'Payment Method',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 15),
+                      style: TextStyle(fontSize: 15),
                     ),
                     SizedBox(
                       height: 20,
@@ -133,10 +121,7 @@ class _CheckoutState extends State<Checkout> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text('Cash on delivery',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(fontSize: 14)),
+                                style: TextStyle(fontSize: 14)),
                             Spacer(),
                             Icon(
                               // Icons.circle_outlined,
@@ -171,11 +156,7 @@ class _CheckoutState extends State<Checkout> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text('Knet',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(fontSize: 14)),
+                            Text('Knet' ?? '', style: TextStyle(fontSize: 14)),
                             Spacer(),
                             Icon(
                               Icons.circle,
@@ -210,20 +191,14 @@ class _CheckoutState extends State<Checkout> {
                       children: [
                         Text(
                           'Sub Total',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(fontSize: 15),
+                          style: TextStyle(fontSize: 15),
                         ),
                         Spacer(),
                         Text('KD 300',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    color: Color(0xff4a4b4d),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                color: Color(0xff4a4b4d),
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
                     SizedBox(
@@ -233,20 +208,14 @@ class _CheckoutState extends State<Checkout> {
                       children: [
                         Text(
                           'Delivery charge',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(fontSize: 15),
+                          style: TextStyle(fontSize: 15),
                         ),
                         Spacer(),
                         Text('KD 20',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    color: Color(0xff4a4b4d),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                color: Color(0xff4a4b4d),
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
                     SizedBox(
@@ -256,20 +225,14 @@ class _CheckoutState extends State<Checkout> {
                       children: [
                         Text(
                           'Discount',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(fontSize: 15),
+                          style: TextStyle(fontSize: 15),
                         ),
                         Spacer(),
                         Text('KD 0',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    color: Color(0xff4a4b4d),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                color: Color(0xff4a4b4d),
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
                     Divider(
@@ -281,20 +244,14 @@ class _CheckoutState extends State<Checkout> {
                       children: [
                         Text(
                           'Total',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(fontSize: 15),
+                          style: TextStyle(fontSize: 15),
                         ),
                         Spacer(),
                         Text('KD 320',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    color: Color(0xff4a4b4d),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                color: Color(0xff4a4b4d),
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)),
                       ],
                     ),
                     SizedBox(

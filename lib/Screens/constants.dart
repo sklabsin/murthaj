@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:murthaji/controller/tabController.dart';
 
 Color colorblue = Color(0xff2682AB);
-String imgurl = 'https://awadalmurtajijointkw.com/murtajishop_new/uploads/';
+// String imgurl = 'https://awadalmurtajijointkw.com/murtajishop_new/uploads/';
+String imgurl = 'https://online.memc-eg-kw.com/uploads/';
 height(context) {
   return MediaQuery.of(context).size.height;
 }
@@ -13,7 +14,7 @@ width(context) {
   return MediaQuery.of(context).size.width;
 }
 
-ElevatedButton buttonWidget({Function()? ontap, Widget? text, Color? color}) {
+ElevatedButton buttonWidget({Function() ontap, Widget text, Color color}) {
   Color colors = (color == null) ? Color(0xff2682AB) : color;
   return ElevatedButton(
     onPressed: ontap,
@@ -28,7 +29,7 @@ ElevatedButton buttonWidget({Function()? ontap, Widget? text, Color? color}) {
     child: Container(
       height: 56,
       child: Center(
-        child: text!,
+        child: text,
       ),
     ),
   );
@@ -36,14 +37,14 @@ ElevatedButton buttonWidget({Function()? ontap, Widget? text, Color? color}) {
 
 TextBoxObscureController obscController = Get.put(TextBoxObscureController());
 Container textBoxWidget({
-  BuildContext? context,
-  TextEditingController? controller,
-  String? hint,
-  TextInputType? type,
-  bool? pass,
+  BuildContext context,
+  TextEditingController controller,
+  String hint,
+  TextInputType type,
+  bool pass,
 }) {
   return Container(
-    width: MediaQuery.of(context!).size.width,
+    width: MediaQuery.of(context).size.width,
     height: 60,
     decoration: BoxDecoration(
       color: Color(0xffF2F2F2),
@@ -84,12 +85,12 @@ Container textBoxWidget({
   );
 }
 
-Row topSection({String? heading}) {
+Row topSection({String heading}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Text(
-        heading!,
+        heading ?? '',
         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
       Image.asset('assets/images/cart.png')
@@ -97,9 +98,9 @@ Row topSection({String? heading}) {
   );
 }
 
-toastFn({String? comment}) {
+toastFn({String comment}) {
   return Fluttertoast.showToast(
-    msg: comment!,
+    msg: comment ?? '',
     toastLength: Toast.LENGTH_SHORT,
     backgroundColor: colorblue,
     fontSize: 14,

@@ -5,7 +5,7 @@ import 'package:murthaji/Screens/checkout.dart';
 import '../constants.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({Key? key}) : super(key: key);
+  const Cart({Key key}) : super(key: key);
 
   @override
   _CartState createState() => _CartState();
@@ -87,13 +87,10 @@ class _CartState extends State<Cart> {
                               width: 165,
                               child: Text(
                                 'CP Plus CCTV Camera',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline4!
-                                    .copyWith(
-                                        color: Color(0xff2682AB),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Color(0xff2682AB),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -101,13 +98,10 @@ class _CartState extends State<Cart> {
                           Container(
                             child: Text(
                               'KD 100',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(
-                                      color: Color(0xff2682AB),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Color(0xff2682AB),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -160,13 +154,10 @@ class _CartState extends State<Cart> {
                               width: 165,
                               child: Text(
                                 'CP Plus CCTV Camera',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline4!
-                                    .copyWith(
-                                        color: Color(0xff2682AB),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Color(0xff2682AB),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -174,13 +165,10 @@ class _CartState extends State<Cart> {
                           Container(
                             child: Text(
                               'KD 100',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(
-                                      color: Color(0xff2682AB),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Color(0xff2682AB),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -205,10 +193,7 @@ class _CartState extends State<Cart> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Text(
                         'Delivery Methods',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 15),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                     Container(
@@ -223,17 +208,9 @@ class _CartState extends State<Cart> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('Fixed',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(fontSize: 14)),
+                            Text('Fixed', style: TextStyle(fontSize: 14)),
                             Spacer(),
-                            Text('KD 20.00',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(fontSize: 15)),
+                            Text('KD 20.00', style: TextStyle(fontSize: 15)),
                             SizedBox(
                               width: 25,
                             ),
@@ -261,17 +238,9 @@ class _CartState extends State<Cart> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('Table Rate',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(fontSize: 14)),
+                            Text('Table Rate', style: TextStyle(fontSize: 14)),
                             Spacer(),
-                            Text('KD 15.00',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(fontSize: 15)),
+                            Text('KD 15.00', style: TextStyle(fontSize: 15)),
                             SizedBox(
                               width: 25,
                             ),
@@ -290,23 +259,17 @@ class _CartState extends State<Cart> {
                     Row(
                       children: [
                         Text('Total',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    color: Color(0xff4a4b4d),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                color: Color(0xff4a4b4d),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold)),
                         Spacer(),
                         Text(
                           'KD 304',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5!
-                              .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                  color: Color(0xff1c477a)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              color: Color(0xff1c477a)),
                         )
                       ],
                     ),
@@ -329,13 +292,10 @@ class _CartState extends State<Cart> {
                         ),
                         child: Center(
                           child: Text('Checkout',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  )),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              )),
                         ),
                       ),
                     ),

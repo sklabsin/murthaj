@@ -9,8 +9,8 @@ import 'TabBarScreens.dart/profile.dart';
 import 'constants.dart';
 
 class Tabscreen extends StatefulWidget {
-  Tabscreen({Key? key, this.count}) : super(key: key);
-  int? count;
+  Tabscreen({Key key, this.count}) : super(key: key);
+  int count;
 
   @override
   _TabscreenState createState() => _TabscreenState();
@@ -30,7 +30,7 @@ class _TabscreenState extends State<Tabscreen> {
   void initState() {
     (widget.count == null)
         ? controller.currenttab.value = 2
-        : controller.currenttab.value = widget.count!;
+        : controller.currenttab.value = widget.count;
     super.initState();
   }
 

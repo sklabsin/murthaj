@@ -15,7 +15,7 @@ class AuthenticationClass {
     this.data,
   });
 
-  Data? data;
+  Data data;
 
   factory AuthenticationClass.fromJson(Map<String, dynamic> json) =>
       AuthenticationClass(
@@ -23,7 +23,7 @@ class AuthenticationClass {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        "data": data.toJson(),
       };
 }
 
@@ -34,9 +34,9 @@ class Data {
     this.message,
   });
 
-  String? status;
-  Response? response;
-  String? message;
+  String status;
+  Response response;
+  String message;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
@@ -48,7 +48,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "status": status ?? '',
-        "response": response!.toJson(),
+        "response": response.toJson(),
         "message": message ?? '',
       };
 }
@@ -60,9 +60,9 @@ class Response {
     this.userid,
   });
 
-  String? username;
-  String? usermail;
-  String? userid;
+  String username;
+  String usermail;
+  String userid;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         username: json["username"] ?? "",

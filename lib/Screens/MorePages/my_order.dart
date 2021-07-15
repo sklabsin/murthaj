@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murthaji/Screens/order_details.dart';
 
 class MyOrder extends StatefulWidget {
-  const MyOrder({Key? key}) : super(key: key);
+  const MyOrder({Key key}) : super(key: key);
 
   @override
   _MyOrderState createState() => _MyOrderState();
@@ -31,7 +31,7 @@ class _MyOrderState extends State<MyOrder> {
           'My Order',
           style: Theme.of(context)
               .textTheme
-              .headline4!
+              .headline4
               .copyWith(color: Color(0xff4a4b4d), fontSize: 25),
         ),
       ),
@@ -86,7 +86,7 @@ class _MyOrderState extends State<MyOrder> {
                                     'Order Number : MU106621',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .subtitle2
                                         .copyWith(
                                             color: Colors.white,
                                             fontSize: 17,
@@ -110,7 +110,7 @@ class _MyOrderState extends State<MyOrder> {
                                               'Total',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2!
+                                                  .subtitle2
                                                   .copyWith(
                                                     color: Colors.white,
                                                     fontSize: 13,
@@ -122,7 +122,7 @@ class _MyOrderState extends State<MyOrder> {
                                           'KD 270',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle2!
+                                              .subtitle2
                                               .copyWith(
                                                 color: Colors.white,
                                                 fontSize: 13,
@@ -146,7 +146,7 @@ class _MyOrderState extends State<MyOrder> {
                                               'Date',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2!
+                                                  .subtitle2
                                                   .copyWith(
                                                     color: Colors.white,
                                                     fontSize: 13,
@@ -158,7 +158,7 @@ class _MyOrderState extends State<MyOrder> {
                                           '04-06-2021',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle2!
+                                              .subtitle2
                                               .copyWith(
                                                 color: Colors.white,
                                                 fontSize: 13,
@@ -191,7 +191,7 @@ class _MyOrderState extends State<MyOrder> {
                                           'Pending',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle2!
+                                              .subtitle2
                                               .copyWith(
                                                 color: Colors.white,
                                                 fontSize: 13,

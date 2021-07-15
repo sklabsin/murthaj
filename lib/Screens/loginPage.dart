@@ -9,7 +9,7 @@ import 'package:murthaji/controller/spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key key}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -73,12 +73,11 @@ class _LoginPageState extends State<LoginPage> {
                     );
                     hideSpinner();
                     if (data.data?.status == '200') {
-                      toastFn(comment: data.data!.message);
+                      toastFn(comment: data.data.message);
                       SharedPreferences pref =
                           await SharedPreferences.getInstance();
-                      pref.setString(
-                          'email', "${data.data?.response?.usermail}");
-                      pref.setString('uid', "${data.data?.response?.userid}");
+                      pref.setString('email', "${data.data.response.usermail}");
+                      pref.setString('uid', "${data.data.response.userid}");
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (context) => Tabscreen()),

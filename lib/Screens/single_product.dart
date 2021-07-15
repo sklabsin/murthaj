@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
 
 class SingleProduct extends StatefulWidget {
-  const SingleProduct({Key? key}) : super(key: key);
+  const SingleProduct({Key key}) : super(key: key);
 
   @override
   _SingleProductState createState() => _SingleProductState();
@@ -134,26 +134,20 @@ class _SingleProductState extends State<SingleProduct> {
                                     height: 30,
                                   ),
                                   Text('Description',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6!
-                                          .copyWith(
-                                              color: Color(0xff4a4b4d),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold)),
+                                      style: TextStyle(
+                                          color: Color(0xff4a4b4d),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
                                   SizedBox(
                                     height: 10,
                                   ),
                                   Text(
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet volutpat consequat mauris nunc. Adipiscing bibendum est ultricies integer. Placerat duis ultricies lacus sed turpis tincidunt id aliquet risus. Velit laoreet id donec ultrices tincidunt arcu non sodales neque. Vitae semper quis lectus nulla at volutpat diam. Vitae nunc sed velit dignissim sodales ut eu sem. Hendrerit gravida rutrum quisque non tellus. Neque gravida in fermentum et sollicitudin ac orci phasellus egestas. Integer enim neque volutpat ac tincidunt vitae semper quis lectus. Augue neque gravida in fermentum et sollicitudin ac orci phasellus. Luctus accumsan tortor posuere ac ut consequat semper viverra. Lorem ipsum dolor sit amet. Habitant morbi tristique senectus et netus. Faucibus turpis in eu mi bibendum. Id cursus metus aliquam eleifend. Ipsum consequat nisl vel pretium lectus. Justo laoreet sit amet cursus sit amet. Massa tempor nec feugiat nisl pretium fusce id.',
                                     maxLines: 2,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(
-                                          color: Color(0xff7c7d7e),
-                                          fontSize: 14,
-                                        ),
+                                    style: TextStyle(
+                                      color: Color(0xff7c7d7e),
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   SizedBox(
                                     height: 25,
@@ -163,7 +157,7 @@ class _SingleProductState extends State<SingleProduct> {
                                     child: Text('KD 750',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline2!
+                                            .headline2
                                             .copyWith(
                                                 color: Color(0xff4a4b4d),
                                                 fontSize: 31,
@@ -249,9 +243,8 @@ class _SingleProductState extends State<SingleProduct> {
                                                 child: Stack(
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 15.0),
+                                                      padding: EdgeInsets.only(
+                                                          left: 15.0),
                                                       child: Align(
                                                         alignment: Alignment
                                                             .centerLeft,
@@ -268,7 +261,7 @@ class _SingleProductState extends State<SingleProduct> {
                                                         'Add to Cart',
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .bodyText1!
+                                                            .bodyText1
                                                             .copyWith(
                                                               color:
                                                                   Colors.white,
@@ -298,7 +291,7 @@ class _SingleProductState extends State<SingleProduct> {
                                       Text('View all',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headline6!
+                                              .headline6
                                               .copyWith(
                                                 color: Color(0xfffc6011),
                                                 fontSize: 14,
@@ -316,9 +309,9 @@ class _SingleProductState extends State<SingleProduct> {
                                   itemBuilder: (context, index) {
                                     if (product_list.isNotEmpty) {
                                       for (var product in product_list) {
-                                        String? image = product['image'];
-                                        String? title = product['title'];
-                                        String? price = product['price'];
+                                        String image = product['image'];
+                                        String title = product['title'];
+                                        String price = product['price'];
 
                                         return ProductCard(
                                           screenWidth: screenWidth,
@@ -347,18 +340,12 @@ class _SingleProductState extends State<SingleProduct> {
 }
 
 class ProductCard extends StatelessWidget {
-  ProductCard(
-      {Key? key,
-      required this.screenWidth,
-      required this.image,
-      required this.price,
-      required this.title})
-      : super(key: key);
+  ProductCard({Key key, this.screenWidth, this.image, this.price, this.title});
 
-  final double screenWidth;
-  final String? image;
-  final String? title;
-  final String? price;
+  double screenWidth;
+  String image;
+  String title;
+  String price;
 
   @override
   Widget build(BuildContext context) {
@@ -400,12 +387,12 @@ class ProductCard extends StatelessWidget {
                     title.toString(),
                     style: Theme.of(context)
                         .textTheme
-                        .headline6!
+                        .headline6
                         .copyWith(fontSize: 16),
                   ),
                   Text(
                     price.toString(),
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                    style: Theme.of(context).textTheme.headline6.copyWith(
                         color: Color(0xff4a4b4d),
                         fontSize: 16,
                         fontWeight: FontWeight.bold),

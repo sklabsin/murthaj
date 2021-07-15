@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Notifications extends StatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+  const Notifications({Key key}) : super(key: key);
 
   @override
   _NotificationsState createState() => _NotificationsState();
@@ -28,7 +28,7 @@ class _NotificationsState extends State<Notifications> {
           'Notifications',
           style: Theme.of(context)
               .textTheme
-              .headline4!
+              .headline4
               .copyWith(color: Color(0xff4a4b4d), fontSize: 25),
         ),
       ),
@@ -79,17 +79,17 @@ class _NotificationsState extends State<Notifications> {
 }
 
 class OrderItem extends StatelessWidget {
-  const OrderItem(
-      {Key? key,
-      required this.screenWidth,
-      required this.notification,
-      required this.time,
-      required this.isDelivered});
+  OrderItem(
+      {Key key,
+      this.screenWidth,
+      this.notification,
+      this.time,
+      this.isDelivered});
 
-  final double screenWidth;
-  final String notification;
-  final String time;
-  final bool isDelivered;
+  double screenWidth;
+  String notification;
+  String time;
+  bool isDelivered;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class OrderItem extends StatelessWidget {
                             notification,
                             maxLines: 1,
                             style:
-                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                Theme.of(context).textTheme.bodyText2.copyWith(
                                       fontSize: 15,
                                     ),
                           ),
@@ -140,7 +140,7 @@ class OrderItem extends StatelessWidget {
                           time,
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2!
+                              .bodyText2
                               .copyWith(fontSize: 12, color: Color(0xffB6B7B7)),
                         ),
                       ],

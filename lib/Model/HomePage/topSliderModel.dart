@@ -14,14 +14,14 @@ class TopSliderClass {
     this.data,
   });
 
-  Data? data;
+  Data data;
 
   factory TopSliderClass.fromJson(Map<String, dynamic> json) => TopSliderClass(
         data: Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        "data": data.toJson(),
       };
 }
 
@@ -31,8 +31,8 @@ class Data {
     this.response,
   });
 
-  String? status;
-  List<SliderResponse>? response;
+  String status;
+  List<SliderResponse> response;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
@@ -42,7 +42,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "response": List<dynamic>.from(response!.map((x) => x.toJson())),
+        "response": List<dynamic>.from(response.map((x) => x.toJson())),
       };
 }
 
@@ -59,15 +59,15 @@ class SliderResponse {
     this.bannerDate,
   });
 
-  String? bannerId;
-  String? bannerTitle;
-  String? bannerShortdesc;
-  String? bannerTitlear;
-  String? bannerShortdescar;
-  String? bannerPrio;
-  String? bannerUrl;
-  String? bannerImage;
-  DateTime? bannerDate;
+  String bannerId;
+  String bannerTitle;
+  String bannerShortdesc;
+  String bannerTitlear;
+  String bannerShortdescar;
+  String bannerPrio;
+  String bannerUrl;
+  String bannerImage;
+  DateTime bannerDate;
 
   factory SliderResponse.fromJson(Map<String, dynamic> json) => SliderResponse(
         bannerId: json["banner_id"],

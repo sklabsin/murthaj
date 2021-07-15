@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({Key? key}) : super(key: key);
+  const OrderDetails({Key key}) : super(key: key);
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
@@ -30,7 +30,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           'My Order',
           style: Theme.of(context)
               .textTheme
-              .headline4!
+              .headline4
               .copyWith(color: Color(0xff4a4b4d), fontSize: 25),
         ),
       ),
@@ -67,22 +67,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Row(
                     children: [
                       Text('Delivery Cost',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Color(0xff4a4b4d),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                              color: Color(0xff4a4b4d),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                       Spacer(),
                       Text('KD 20',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Color(0xff4e99ba),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                              color: Color(0xff4e99ba),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                     ],
                   ),
                   SizedBox(
@@ -91,22 +85,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Row(
                     children: [
                       Text('Payment',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Color(0xff4a4b4d),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              color: Color(0xff4a4b4d),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                       Spacer(),
                       Text('Cash on delivery',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Color(0xff4a4b4d),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                              color: Color(0xff4a4b4d),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                     ],
                   ),
                   SizedBox(
@@ -115,29 +103,23 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Row(
                     children: [
                       Text('Total',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Color(0xff4a4b4d),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              color: Color(0xff4a4b4d),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
                       Spacer(),
                       Text('KD 520',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6!
-                              .copyWith(
-                                  color: Color(0xff4e99ba),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              color: Color(0xff4e99ba),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)),
                     ],
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   Text('Delivery Address',
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                      style: TextStyle(
                           color: Color(0xff4a4b4d),
                           fontSize: 15,
                           fontWeight: FontWeight.bold)),
@@ -148,7 +130,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       'Meshref\nthomson center \n2nd floor  center  thrissur\nAbhcon Atrium Building, \ndesing@gmail.com\n0999569683',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyText2
                           .copyWith(fontSize: 14, color: Color(0xff4a4b4d)))
                 ],
               ),
@@ -161,16 +143,11 @@ class _OrderDetailsState extends State<OrderDetails> {
 }
 
 class OrderItem extends StatelessWidget {
-  const OrderItem({
-    Key? key,
-    required this.screenWidth,
-    required this.name,
-    required this.price,
-  }) : super(key: key);
+  OrderItem({Key key, this.screenWidth, this.name, this.price});
 
-  final double screenWidth;
-  final String name;
-  final String price;
+  double screenWidth;
+  String name;
+  String price;
 
   @override
   Widget build(BuildContext context) {
@@ -190,10 +167,7 @@ class OrderItem extends StatelessWidget {
                     width: screenWidth / 1.5,
                     child: Text(
                       name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2!
-                          .copyWith(fontSize: 14, color: Color(0xff4a4b4d)),
+                      style: TextStyle(fontSize: 14, color: Color(0xff4a4b4d)),
                     ),
                   ),
                   Spacer(),
@@ -201,7 +175,7 @@ class OrderItem extends StatelessWidget {
                     price,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyText2
                         .copyWith(fontSize: 14, color: Color(0xff4a4b4d)),
                   ),
                 ],

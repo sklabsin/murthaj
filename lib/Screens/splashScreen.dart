@@ -4,7 +4,7 @@ import 'package:murthaji/Screens/tabScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({Key? key});
+  SplashScreen({Key key});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

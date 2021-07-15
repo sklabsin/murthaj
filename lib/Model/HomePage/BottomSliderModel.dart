@@ -15,7 +15,7 @@ class BottomSliderClass {
     this.data,
   });
 
-  Data? data;
+  Data data;
 
   factory BottomSliderClass.fromJson(Map<String, dynamic> json) =>
       BottomSliderClass(
@@ -23,7 +23,7 @@ class BottomSliderClass {
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data!.toJson(),
+        "data": data.toJson(),
       };
 }
 
@@ -33,8 +33,8 @@ class Data {
     this.response,
   });
 
-  String? status;
-  List<BottomSliderResponse>? response;
+  String status;
+  List<BottomSliderResponse> response;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
@@ -44,7 +44,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "response": List<dynamic>.from(response!.map((x) => x.toJson())),
+        "response": List<dynamic>.from(response.map((x) => x.toJson())),
       };
 }
 
@@ -60,14 +60,14 @@ class BottomSliderResponse {
     this.middlebannerDate,
   });
 
-  String? middlebannerId;
-  String? middlebannerTitle;
-  String? middlebannerTitleAr;
-  String? middlebannerOfferTitle;
-  String? middlebannerOfferTitleAr;
-  String? middlebannerOfferDigit;
-  String? middlebannerImage;
-  DateTime? middlebannerDate;
+  String middlebannerId;
+  String middlebannerTitle;
+  String middlebannerTitleAr;
+  String middlebannerOfferTitle;
+  String middlebannerOfferTitleAr;
+  String middlebannerOfferDigit;
+  String middlebannerImage;
+  DateTime middlebannerDate;
 
   factory BottomSliderResponse.fromJson(Map<String, dynamic> json) =>
       BottomSliderResponse(
@@ -90,6 +90,6 @@ class BottomSliderResponse {
         "middlebanner_offer_digit": middlebannerOfferDigit,
         "middlebanner_image": middlebannerImage,
         "middlebanner_date":
-            "${middlebannerDate!.year.toString().padLeft(4, '0')}-${middlebannerDate!.month.toString().padLeft(2, '0')}-${middlebannerDate!.day.toString().padLeft(2, '0')}",
+            "${middlebannerDate.year.toString().padLeft(4, '0')}-${middlebannerDate.month.toString().padLeft(2, '0')}-${middlebannerDate.day.toString().padLeft(2, '0')}",
       };
 }

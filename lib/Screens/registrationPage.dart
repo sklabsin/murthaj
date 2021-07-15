@@ -9,7 +9,7 @@ import 'package:murthaji/controller/spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationPage extends StatefulWidget {
-  RegistrationPage({Key? key}) : super(key: key);
+  RegistrationPage({Key key}) : super(key: key);
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
 }
@@ -25,7 +25,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Spinner(
       child: Scaffold(
-        resizeToAvoidBottomInset:false,
+        resizeToAvoidBottomInset: false,
         body: Container(
           margin: EdgeInsets.only(top: 50, right: 25, left: 25),
           child: Column(
@@ -88,7 +88,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         cpass.text.isNotEmpty) {
                       if (pass.text == cpass.text) {
                         showSpinner();
-                        AuthenticationClass? data =
+                        AuthenticationClass data =
                             await Authentication().registrationApi(
                           fname: fname.text,
                           lname: lname.text,

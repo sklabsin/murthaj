@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:murthaji/Api/api.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:murthaji/controller/spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../landingPage.dart';
 
 class Profile extends StatefulWidget {
-  Profile({Key? key}) : super(key: key);
+  Profile({Key key}) : super(key: key);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -19,6 +20,7 @@ class _ProfileState extends State<Profile> {
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
   TextEditingController cpass = TextEditingController();
+  bool active = false;
   @override
   Widget build(BuildContext context) {
     return Spinner(
@@ -62,9 +64,16 @@ class _ProfileState extends State<Profile> {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      'Edit Profile',
-                      style: TextStyle(fontSize: 12, color: colorblue),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          active = true;
+                        });
+                      },
+                      child: Text(
+                        'Edit Profile',
+                        style: TextStyle(fontSize: 12, color: colorblue),
+                      ),
                     ),
                   ],
                 ),
@@ -102,56 +111,85 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 40,
                 ),
-                SingleTextbox(
-                  label: 'FirstName',
-                  obs: false,
-                  controller: fname,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SingleTextbox(
-                  label: 'LastName',
-                  obs: false,
-                  controller: fname,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SingleTextbox(
-                  label: 'Email',
-                  obs: false,
-                  controller: fname,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SingleTextbox(
-                  label: 'Password',
-                  obs: true,
-                  controller: fname,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SingleTextbox(
-                  label: 'Confirm Password',
-                  obs: true,
-                  controller: fname,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                buttonWidget(
-                  ontap: () {},
-                  text: Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                (!active)
+                    ? Container()
+                    : Column(children: [
+                        SingleTextbox(
+                          label: 'FirstName',
+                          obs: false,
+                          controller: fname,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        SingleTextbox(
+                          label: 'LastName',
+                          obs: false,
+                          controller: lname,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        SingleTextbox(
+                          label: 'Email',
+                          obs: false,
+                          controller: email,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        SingleTextbox(
+                          label: 'Password',
+                          obs: true,
+                          controller: pass,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        SingleTextbox(
+                          label: 'Confirm Password',
+                          obs: true,
+                          controller: cpass,
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        buttonWidget(
+                          ontap: () async {
+                            if (fname.text.isNotEmpty &&
+                                lname.text.isNotEmpty &&
+                                email.text.isNotEmpty &&
+                                pass.text.isNotEmpty &&
+                                cpass.text.isNotEmpty) {
+                              if (pass.text == cpass.text) {
+                                showSpinner();
+                                String msg = await updateProfile(
+                                    fname: fname.text,
+                                    lname: lname.text,
+                                    email: email.text,
+                                    pass: pass.text,
+                                    cpass: cpass.text);
+                                hideSpinner();
+                                toastFn(comment: msg);
+                                setState(() {
+                                  active = false;
+                                });
+                              } else {
+                                toastFn(comment: 'Passwords are not same');
+                              }
+                            } else {
+                              toastFn(comment: 'Fill all feilds');
+                            }
+                          },
+                          text: Text(
+                            'Save',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ]),
                 SizedBox(
                   height: 50,
                 ),
@@ -166,9 +204,9 @@ class _ProfileState extends State<Profile> {
 
 class SingleTextbox extends StatelessWidget {
   SingleTextbox({this.controller, this.label, this.obs});
-  bool? obs;
-  String? label;
-  TextEditingController? controller;
+  bool obs;
+  String label;
+  TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +219,7 @@ class SingleTextbox extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        obscureText: obs!,
+        obscureText: obs,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(fontSize: 16, color: Color(0xffB6B7B7)),
