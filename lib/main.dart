@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:murthaji/Screens/splashScreen.dart';
 import 'package:murthaji/controller/spinner.dart';
+import 'Screens/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     Get.put(SpinController(), permanent: true);
+    Future.delayed(Duration(seconds: 3)).then(
+      (value) async {
+        await checkLogin();
+      },
+    );
+
     super.initState();
   }
 
@@ -43,6 +50,10 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Metropolis',
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+        ),
       ),
       home: SplashScreen(),
     );

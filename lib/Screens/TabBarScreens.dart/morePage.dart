@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:murthaji/Screens/MorePages/AboutUs.dart';
 import 'package:murthaji/Screens/MorePages/Address.dart';
+import 'package:murthaji/Screens/MorePages/CustomerCare.dart';
 import 'package:murthaji/Screens/MorePages/Privacy.dart';
 import 'package:murthaji/Screens/MorePages/my_order.dart';
 import 'package:murthaji/Screens/MorePages/notifications.dart';
 import 'package:murthaji/Screens/MorePages/wishlist.dart';
 import 'package:murthaji/Screens/constants.dart';
+import 'package:murthaji/extras/Bottomsheet.dart';
 
 class MorePage extends StatefulWidget {
   MorePage({Key key}) : super(key: key);
@@ -37,7 +40,7 @@ class _MorePageState extends State<MorePage> {
                           value: Language.English,
                           groupValue: language,
                           onChanged: (Language value) {
-                            print(value);
+                            // print(value);
                             childState(() {
                               language = value;
                               EasyLocalization.of(context)
@@ -54,12 +57,15 @@ class _MorePageState extends State<MorePage> {
                           value: Language.Arabic,
                           groupValue: language,
                           onChanged: (Language value) {
-                            print(value);
-                            childState(() {
-                              language = value;
-                              EasyLocalization.of(context)
-                                  .setLocale(Locale('ar', 'AE'));
-                            });
+                            // print(value);
+                            childState(
+                              () {
+                                language = value;
+                                EasyLocalization.of(context).setLocale(
+                                  Locale('ar', 'AE'),
+                                );
+                              },
+                            );
                           })
                     ],
                   ),
@@ -87,7 +93,7 @@ class _MorePageState extends State<MorePage> {
                     'Menu',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  Image.asset('assets/images/cart.png')
+                  // Image.asset('assets/images/cart.png')
                 ],
               ),
               SizedBox(
@@ -100,29 +106,45 @@ class _MorePageState extends State<MorePage> {
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Column(
                   children: [
-                    MoreOption(
-                      img: 'assets/images/address.png',
-                      txt: 'Address',
-                      ontap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddressList()));
-                      },
-                    ),
-                    Divider(),
-                    MoreOption(
-                      img: 'assets/images/myorder.png',
-                      txt: 'All My Orders',
-                      ontap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyOrder(),
+                    loggedin
+                        ? MoreOption(
+                            img: 'assets/images/address.png',
+                            txt: 'Address',
+                            ontap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddressList()));
+                            },
+                          )
+                        : MoreOption(
+                            img: 'assets/images/address.png',
+                            txt: 'Address',
+                            ontap: () {
+                              bottomsheet(context: context);
+                            },
                           ),
-                        );
-                      },
-                    ),
+                    Divider(),
+                    loggedin
+                        ? MoreOption(
+                            img: 'assets/images/myorder.png',
+                            txt: 'All My Orders',
+                            ontap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyOrder(),
+                                ),
+                              );
+                            },
+                          )
+                        : MoreOption(
+                            img: 'assets/images/myorder.png',
+                            txt: 'All My Orders',
+                            ontap: () {
+                              bottomsheet(context: context);
+                            },
+                          ),
                     Divider(),
                     InkWell(
                       onTap: () {
@@ -181,29 +203,45 @@ class _MorePageState extends State<MorePage> {
                       ),
                     ),
                     Divider(thickness: .6),
-                    MoreOption(
-                      img: 'assets/images/wishlist.png',
-                      txt: 'Wishlist',
-                      ontap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WishList(),
+                    loggedin
+                        ? MoreOption(
+                            img: 'assets/images/wishlist.png',
+                            txt: 'Wishlist',
+                            ontap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WishList(),
+                                ),
+                              );
+                            },
+                          )
+                        : MoreOption(
+                            img: 'assets/images/wishlist.png',
+                            txt: 'Wishlist',
+                            ontap: () {
+                              bottomsheet(context: context);
+                            },
                           ),
-                        );
-                      },
-                    ),
                     Divider(thickness: .6),
-                    MoreOption(
-                      img: 'assets/images/notification.png',
-                      txt: 'Notification',
-                      ontap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Notifications()));
-                      },
-                    ),
+                    loggedin
+                        ? MoreOption(
+                            img: 'assets/images/notification.png',
+                            txt: 'Notification',
+                            ontap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Notifications()));
+                            },
+                          )
+                        : MoreOption(
+                            img: 'assets/images/notification.png',
+                            txt: 'Notification',
+                            ontap: () {
+                              bottomsheet(context: context);
+                            },
+                          ),
                     Divider(),
                     MoreOption(
                       img: 'assets/images/privacy.png',
@@ -234,7 +272,14 @@ class _MorePageState extends State<MorePage> {
                     MoreOption(
                       img: 'assets/images/customercare.png',
                       txt: 'CustomerCare',
-                      ontap: () {},
+                      ontap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CustomerCarePage(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

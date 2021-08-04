@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:murthaji/Model/OrderSection/orderHistoryModel.dart';
+import 'package:murthaji/Screens/constants.dart';
 
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({Key key}) : super(key: key);
+  OrderDetails({
+    Key key,
+    this.items,
+    this.deliveryAddress,
+    this.deliveryCost,
+    this.paymentType,
+    this.totalAmt,
+    this.OrderId,
+  });
+  List<OrderItems> items;
+  String deliveryCost;
+  String totalAmt;
+  String paymentType;
+  String deliveryAddress;
+  String OrderId;
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
@@ -12,9 +28,6 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -28,10 +41,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         ),
         title: Text(
           'My Order',
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              .copyWith(color: Color(0xff4a4b4d), fontSize: 25),
+          style: TextStyle(color: Color(0xff4a4b4d), fontSize: 25),
         ),
       ),
       body: SingleChildScrollView(
@@ -41,26 +51,49 @@ class _OrderDetailsState extends State<OrderDetails> {
             SizedBox(
               height: 20,
             ),
-            OrderItem(
-              screenWidth: screenWidth,
-              name: '3 Gang Socket, 2 USB x1',
-              price: 'KD 100',
-            ),
-            OrderItem(
-              screenWidth: screenWidth,
-              name: '13 A SOCKET 2 GANG',
-              price: 'KD 100',
-            ),
-            OrderItem(
-              screenWidth: screenWidth,
-              name: '3 Gang Socket, 2 USB x1',
-              price: 'KD 100',
+            Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'Order Number : ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    widget.OrderId ?? "",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 20,
             ),
+            ListView.builder(
+                itemCount: widget.items.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return OrderItem(
+                    name: widget.items[index].dcProdName ?? "",
+                    price: widget.items[index].dcProdActualstoreprice ?? "",
+                  );
+                }),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,8 +105,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
                       Spacer(),
-                      Text('KD 20',
-                          style: Theme.of(context).textTheme.headline6.copyWith(
+                      Text('KD ' + widget.deliveryCost ?? "",
+                          style: TextStyle(
                               color: Color(0xff4e99ba),
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
@@ -108,7 +141,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
                       Spacer(),
-                      Text('KD 520',
+                      Text('KD ' + widget.totalAmt ?? "",
                           style: TextStyle(
                               color: Color(0xff4e99ba),
                               fontSize: 18,
@@ -143,9 +176,8 @@ class _OrderDetailsState extends State<OrderDetails> {
 }
 
 class OrderItem extends StatelessWidget {
-  OrderItem({Key key, this.screenWidth, this.name, this.price});
+  OrderItem({Key key, this.name, this.price});
 
-  double screenWidth;
   String name;
   String price;
 
@@ -154,32 +186,29 @@ class OrderItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: screenWidth,
           height: 48,
           color: Color(0xffD8E9F0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Center(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    width: screenWidth / 1.5,
-                    child: Text(
-                      name,
-                      style: TextStyle(fontSize: 14, color: Color(0xff4a4b4d)),
-                    ),
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  width: width(context) / 1.5,
+                  child: Text(
+                    name,
+                    style: TextStyle(fontSize: 12, color: Color(0xff4a4b4d)),
                   ),
-                  Spacer(),
-                  Text(
-                    price,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(fontSize: 14, color: Color(0xff4a4b4d)),
+                ),
+                Spacer(),
+                Text(
+                  "KD " + price,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff4a4b4d),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

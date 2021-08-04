@@ -26,135 +26,140 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Spinner(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
-          margin: EdgeInsets.only(top: 50, right: 25, left: 25),
-          child: Column(
-            children: [
-              Text(
-                "Sign Up",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text('Add your details to sign up'),
-              SizedBox(
-                height: 45,
-              ),
-              textBoxWidget(
-                  hint: 'First Name', context: context, controller: fname),
-              SizedBox(
-                height: 20,
-              ),
-              textBoxWidget(
-                  hint: 'Last Name', context: context, controller: lname),
-              SizedBox(
-                height: 20,
-              ),
-              textBoxWidget(hint: 'Email', context: context, controller: email),
-              SizedBox(
-                height: 20,
-              ),
-              textBoxWidget(
-                hint: 'Password',
-                context: context,
-                controller: pass,
-                pass: true,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              textBoxWidget(
-                  hint: 'Confirm Password',
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(top: 50, right: 25, left: 25),
+            child: Column(
+              children: [
+                Text(
+                  "Sign Up",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Add your details to sign up'),
+                SizedBox(
+                  height: 45,
+                ),
+                textBoxWidget(
+                    hint: 'First Name', context: context, controller: fname),
+                SizedBox(
+                  height: 20,
+                ),
+                textBoxWidget(
+                    hint: 'Last Name', context: context, controller: lname),
+                SizedBox(
+                  height: 20,
+                ),
+                textBoxWidget(
+                    hint: 'Email', context: context, controller: email),
+                SizedBox(
+                  height: 20,
+                ),
+                textBoxWidget(
+                  hint: 'Password',
                   context: context,
-                  controller: cpass,
-                  pass: true),
-              SizedBox(
-                height: 30,
-              ),
-              buttonWidget(
-                  text: Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                  controller: pass,
+                  pass: true,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                textBoxWidget(
+                    hint: 'Confirm Password',
+                    context: context,
+                    controller: cpass,
+                    pass: true),
+                SizedBox(
+                  height: 30,
+                ),
+                buttonWidget(
+                    text: Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  ontap: () async {
-                    if (fname.text.isNotEmpty &&
-                        lname.text.isNotEmpty &&
-                        email.text.isNotEmpty &&
-                        pass.text.isNotEmpty &&
-                        cpass.text.isNotEmpty) {
-                      if (pass.text == cpass.text) {
-                        showSpinner();
-                        AuthenticationClass data =
-                            await Authentication().registrationApi(
-                          fname: fname.text,
-                          lname: lname.text,
-                          email: email.text,
-                          pass: pass.text,
-                          cpass: cpass.text,
-                        );
-                        hideSpinner();
-                        if (data.data?.status == '200') {
-                          toastFn(comment: data.data?.message);
-                          // toastFn(comment: " success");
-                          SharedPreferences pref =
-                              await SharedPreferences.getInstance();
-                          pref.setString(
-                              'email', "${data.data?.response?.usermail}");
-                          pref.setString(
-                              'uid', "${data.data?.response?.userid}");
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Tabscreen()),
-                              (route) => false);
+                    ontap: () async {
+                      if (fname.text.isNotEmpty &&
+                          lname.text.isNotEmpty &&
+                          email.text.isNotEmpty &&
+                          pass.text.isNotEmpty &&
+                          cpass.text.isNotEmpty) {
+                        if (pass.text == cpass.text) {
+                          showSpinner();
+                          AuthenticationClass data =
+                              await Authentication().registrationApi(
+                            fname: fname.text,
+                            lname: lname.text,
+                            email: email.text,
+                            pass: pass.text,
+                            cpass: cpass.text,
+                          );
+                          hideSpinner();
+                          if (data.data?.status == '200') {
+                            toastFn(comment: data.data?.message);
+                            // toastFn(comment: " success");
+                            SharedPreferences pref =
+                                await SharedPreferences.getInstance();
+                            pref.setString(
+                                'email', "${data.data?.response?.usermail}");
+                            pref.setString(
+                                'uid', "${data.data?.response?.userid}");
+                            pref.setBool('loggedin', true);
+                            checkLogin();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Tabscreen()),
+                                (route) => false);
+                          } else {
+                            toastFn(comment: data.data?.message.toString());
+                            // toastFn(comment: "not success");
+                          }
                         } else {
-                          toastFn(comment: data.data?.message.toString());
-                          // toastFn(comment: "not success");
+                          toastFn(comment: "Passwords are not same");
                         }
                       } else {
-                        toastFn(comment: "Passwords are not same");
+                        toastFn(comment: "Fill all fields to continue");
                       }
-                    } else {
-                      toastFn(comment: "Fill all feilds to continue");
-                    }
-                  }),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
-                },
-                child: RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Already have an Account?',
+                    }),
+                SizedBox(
+                  height: 30,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
                       ),
-                      TextSpan(
-                        text: ' Login',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xff2682AB),
+                    );
+                  },
+                  child: RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Already have an Account?',
                         ),
-                      ),
-                    ],
-                    style: TextStyle(fontSize: 15, color: Colors.black),
+                        TextSpan(
+                          text: ' Login',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff2682AB),
+                          ),
+                        ),
+                      ],
+                      style: TextStyle(fontSize: 15, color: Colors.black),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

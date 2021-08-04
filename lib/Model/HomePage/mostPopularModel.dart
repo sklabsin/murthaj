@@ -34,12 +34,12 @@ class Data {
   });
 
   String status;
-  List<Response> response;
+  List<CardResponse> response;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
-        response: List<Response>.from(
-            json["response"].map((x) => Response.fromJson(x))),
+        response: List<CardResponse>.from(
+            json["response"].map((x) => CardResponse.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,8 +48,8 @@ class Data {
       };
 }
 
-class Response {
-  Response(
+class CardResponse {
+  CardResponse(
       {this.productId,
       this.productSellPrice,
       this.productName,
@@ -64,7 +64,7 @@ class Response {
   String productImage;
   String wishliststatus;
 
-  factory Response.fromJson(Map<String, dynamic> json) => Response(
+  factory CardResponse.fromJson(Map<String, dynamic> json) => CardResponse(
         productId: json["product_id"],
         productSellPrice: json["product_sell_price"],
         productName: json["product_name"],

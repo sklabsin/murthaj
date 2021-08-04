@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:murthaji/controller/tabController.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Color colorblue = Color(0xff2682AB);
 // String imgurl = 'https://awadalmurtajijointkw.com/murtajishop_new/uploads/';
@@ -12,6 +13,18 @@ height(context) {
 
 width(context) {
   return MediaQuery.of(context).size.width;
+}
+
+bool loggedin;
+checkLogin() async {
+  var pref = await SharedPreferences.getInstance();
+  if (pref.getString('uid') == null) {
+    loggedin = false;
+    // return false;
+  } else {
+    loggedin = true;
+    // return true;
+  }
 }
 
 ElevatedButton buttonWidget({Function() ontap, Widget text, Color color}) {
@@ -52,6 +65,7 @@ Container textBoxWidget({
     ),
     child: TextField(
       controller: controller,
+      keyboardType: type,
       obscureText: (pass == true) ? obscController.obsc.value : false,
       decoration: InputDecoration(
         hintText: hint,
@@ -62,6 +76,10 @@ Container textBoxWidget({
               )
             : InkWell(
                 onTap: () {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
                   obscController.obsc.value = !obscController.obsc.value;
                 },
                 child: Container(

@@ -150,7 +150,6 @@ class Prod {
     this.productName,
     this.productNameArab,
     this.productImage,
-    this.wishlist_status,
   });
 
   String productId;
@@ -158,7 +157,6 @@ class Prod {
   String productName;
   String productNameArab;
   String productImage;
-  String wishlist_status;
 
   factory Prod.fromJson(Map<String, dynamic> json) => Prod(
         productId: json["product_id"],
@@ -166,7 +164,6 @@ class Prod {
         productName: json["product_name"],
         productNameArab: json["product_name_arab"],
         productImage: json["product_image"],
-        wishlist_status: json["wishlist_status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -175,6 +172,5 @@ class Prod {
         "product_name": productName,
         "product_name_arab": productNameArab,
         "product_image": productImage,
-        "wishlist_status": wishlist_status,
       };
 }

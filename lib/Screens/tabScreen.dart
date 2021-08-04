@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:murthaji/Screens/TabBarScreens.dart/categoryPage.dart';
 import 'package:murthaji/Screens/TabBarScreens.dart/homePage.dart';
+import 'package:murthaji/controller/cartController.dart';
+import 'package:murthaji/controller/categoryController.dart';
+import 'package:murthaji/controller/favouriteController.dart';
 import 'package:murthaji/controller/tabController.dart';
+import 'package:murthaji/extras/Bottomsheet.dart';
 import 'TabBarScreens.dart/cart.dart';
 import 'TabBarScreens.dart/morePage.dart';
 import 'TabBarScreens.dart/profile.dart';
 import 'constants.dart';
 
 class Tabscreen extends StatefulWidget {
-  Tabscreen({Key key, this.count}) : super(key: key);
-  int count;
+  Tabscreen({
+    Key key,
+  });
 
   @override
   _TabscreenState createState() => _TabscreenState();
@@ -27,10 +32,20 @@ class _TabscreenState extends State<Tabscreen> {
   ];
   PageStorageBucket bucket = PageStorageBucket();
   TabPageController controller = Get.put(TabPageController());
+  CategoryController catController = Get.put(CategoryController());
+  FavoritesListController favListcontroller =
+      Get.put(FavoritesListController());
+  CartListController cartListcontroller = Get.put(CartListController());
+
   void initState() {
-    (widget.count == null)
-        ? controller.currenttab.value = 2
-        : controller.currenttab.value = widget.count;
+    catController.fetchMainCategory();
+    Future.delayed(Duration(microseconds: 5)).then((value) async {
+      await checkLogin();
+      loggedin == true ? await favListcontroller.fetchFavoritesList() : null;
+      loggedin == true ? await cartListcontroller.fetchCartItemsList() : null;
+      // print(loggedin);
+    });
+
     super.initState();
   }
 
@@ -85,7 +100,7 @@ class _TabscreenState extends State<Tabscreen> {
                     InkWell(
                       onTap: () {
                         controller.currenttab.value = 0;
-                        print(controller.currenttab.value);
+                        // print(controller.currenttab.value);
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +131,9 @@ class _TabscreenState extends State<Tabscreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        controller.currenttab.value = 1;
+                        loggedin
+                            ? controller.currenttab.value = 1
+                            : bottomsheet(context: context);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -153,7 +170,9 @@ class _TabscreenState extends State<Tabscreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        controller.currenttab.value = 3;
+                        loggedin
+                            ? controller.currenttab.value = 3
+                            : bottomsheet(context: context);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 5),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 import 'package:murthaji/Api/api.dart';
+import 'package:murthaji/controller/favouriteController.dart';
 
 class LikeSection extends StatelessWidget {
   LikeSection({
@@ -14,10 +16,13 @@ class LikeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FavoritesListController favListcontroller =
+        Get.put(FavoritesListController());
     Future<bool> onLikeButtonTapped(bool isLiked) async {
       isLiked == false
-          ? FavouriteSection().addfavourite(pid: pid)
-          : FavouriteSection().removefavourite(pid: pid);
+          ? await FavouriteSection().addfavourite(pid: pid)
+          : await FavouriteSection().removefavourite(pid: pid);
+      await favListcontroller.fetchFavoritesList();
       return !isLiked;
     }
 

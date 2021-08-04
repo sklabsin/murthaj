@@ -3,6 +3,8 @@ import 'package:murthaji/Screens/landingPage.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'constants.dart';
+
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key});
 
@@ -15,15 +17,17 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(Duration(seconds: 3)).then((value) async {
       var pref = await SharedPreferences.getInstance();
-      (pref.getString('uid') == null)
-          ? Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => LandingPage()),
-              (route) => false)
-          : Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => Tabscreen()),
-              (route) => false);
+      // (pref.getString('uid') == null)
+      //     ? Navigator.pushAndRemoveUntil(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => LandingPage()),
+      //         (route) => false)
+      //     :
+      await checkLogin();
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Tabscreen()),
+          (route) => false);
     });
 
     super.initState();
