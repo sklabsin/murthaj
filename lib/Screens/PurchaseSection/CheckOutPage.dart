@@ -10,25 +10,28 @@ import 'package:murthaji/controller/tabController.dart';
 import '../MorePages/my_order.dart';
 
 class CheckOut extends StatefulWidget {
-  CheckOut(
-      {Key key,
-      this.deliveryPrice,
-      this.price,
-      this.discount,
-      this.addr_id,
-      this.coupon});
+  CheckOut({
+    Key key,
+    this.deliveryPrice,
+    this.price,
+    this.discount,
+    this.addr_id,
+    this.coupon,
+    this.totalprice,
+  });
   String price;
   int discount;
   int deliveryPrice;
   String addr_id;
   String coupon;
+  double totalprice;
 
   @override
   _CheckOutState createState() => _CheckOutState();
 }
 
 class _CheckOutState extends State<CheckOut> {
-  String totalPrice = "100";
+  // String totalPrice = "100";
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +170,7 @@ class _CheckOutState extends State<CheckOut> {
                       ),
                       Spacer(),
                       Text(
-                        'KD ' + totalPrice ?? "",
+                        'KD ' + widget.totalprice.toString() ?? "",
                         style: TextStyle(
                             color: Color(0xff4a4b4d),
                             fontSize: 15,

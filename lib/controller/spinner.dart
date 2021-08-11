@@ -15,6 +15,7 @@ class SpinController extends GetxController {
   }
 }
 
+// ignore: must_be_immutable
 class Spinner extends StatelessWidget {
   Spinner({this.child});
   Widget child;

@@ -23,6 +23,7 @@ import 'package:murthaji/Model/OrderSection/orderHistoryModel.dart';
 import 'package:murthaji/Model/profileModel.dart';
 import 'package:murthaji/Model/singleProductModel.dart';
 import 'package:murthaji/Model/wishlistModel.dart';
+import 'package:murthaji/Screens/ProductListing.dart';
 import 'package:murthaji/Screens/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -108,10 +109,21 @@ class Home {
     }
   }
 
+  Future<ProductListing> productListing() async {
+    final response = await http.post(getUrl('product_list'), body: {});
+    // print(response.body);
+    try {
+      return productListingFromJson(response.body);
+    } catch (e) {
+      print(e);
+      return ProductListing();
+    }
+  }
+
   Future<MostPopularClass> searchProductApi({String keyword}) async {
     final response = await http.post(getUrl('search_product'), body: {
-      // "search_name": keyword,
-      "search_name": "light",
+      "search_name": keyword,
+      // "search_name": "light",
     });
     // print(response.body);
     try {
@@ -366,6 +378,8 @@ class Extras {
 class AddressApis {
   Future<String> deleteAddress({String addressId}) async {
     var id = await userId();
+    print('kkk');
+    print(addressId);
     final response = await http.post(getUrl('deleteaddress'), body: {
       "user_id": id,
       "adrid": addressId,
@@ -379,7 +393,7 @@ class AddressApis {
         toastFn(comment: data.data.message);
     } catch (e) {
       print(e);
-      return 'error';
+      return '';
     }
   }
 
@@ -435,6 +449,7 @@ class AddressApis {
     String adrgovernarate,
   }) async {
     var id = await userId();
+    print(adrarea);
     final response = await http.post(getUrl('edit_address'), body: {
       "user_id": id,
       "adrfirstName": adrfirstName,
@@ -474,7 +489,7 @@ class AddressApis {
   }
 
   Future<GovernarateModel> getGovernarate() async {
-    var id = await userId();
+    // var id = await userId();
     final response = await http.post(getUrl('governarate'), body: {});
     // print(response.body);
     try {
@@ -486,7 +501,7 @@ class AddressApis {
   }
 
   Future<CitiesModel> getCities(String gover) async {
-    var id = await userId();
+    // var id = await userId();
     final response =
         await http.post(getUrl('city'), body: {"governarate_name": gover});
     // print(response.body);

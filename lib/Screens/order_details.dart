@@ -10,14 +10,26 @@ class OrderDetails extends StatefulWidget {
     this.deliveryCost,
     this.paymentType,
     this.totalAmt,
-    this.OrderId,
+    this.orderId,
+    this.addressname,
+    this.city,
+    this.mail,
+    this.mobile,
+    this.governarate,
+    this.roomNo,
   });
   List<OrderItems> items;
   String deliveryCost;
   String totalAmt;
   String paymentType;
   String deliveryAddress;
-  String OrderId;
+  String orderId;
+  String roomNo;
+  String addressname;
+  String city;
+  String governarate;
+  String mobile;
+  String mail;
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
@@ -65,7 +77,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
                 Expanded(
                   child: Text(
-                    widget.OrderId ?? "",
+                    widget.orderId ?? "",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -141,11 +153,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                               fontSize: 15,
                               fontWeight: FontWeight.bold)),
                       Spacer(),
-                      Text('KD ' + widget.totalAmt ?? "",
-                          style: TextStyle(
-                              color: Color(0xff4e99ba),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        'KD ' + widget.totalAmt ?? "",
+                        style: TextStyle(
+                          color: Color(0xff4e99ba),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -160,11 +175,40 @@ class _OrderDetailsState extends State<OrderDetails> {
                     height: 15,
                   ),
                   Text(
-                      'Meshref\nthomson center \n2nd floor  center  thrissur\nAbhcon Atrium Building, \ndesing@gmail.com\n0999569683',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          .copyWith(fontSize: 14, color: Color(0xff4a4b4d)))
+                    widget.addressname ?? '',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff4a4b4d),
+                    ),
+                  ),
+                  Text(
+                    widget.city ?? "",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff4a4b4d),
+                    ),
+                  ),
+                  Text(
+                    widget.governarate ?? "",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff4a4b4d),
+                    ),
+                  ),
+                  Text(
+                    widget.mobile ?? "",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff4a4b4d),
+                    ),
+                  ),
+                  Text(
+                    widget.mail ?? "",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff4a4b4d),
+                    ),
+                  )
                 ],
               ),
             )

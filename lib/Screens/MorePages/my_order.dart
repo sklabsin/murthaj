@@ -59,13 +59,25 @@ class _MyOrderState extends State<MyOrder> {
                               MaterialPageRoute(
                                 builder: (context) => OrderDetails(
                                   items: snapshot
-                                      .data.data.response[index].orderItem,
+                                      .data.data.response[index].orderItems,
                                   totalAmt: snapshot.data.data.response[index]
                                       .ordersTotalAmount,
                                   deliveryCost: snapshot
                                       .data.data.response[index].deliveryCharge,
-                                  OrderId: snapshot
+                                  orderId: snapshot
                                       .data.data.response[index].ordersUniqId,
+                                  addressname: snapshot
+                                      .data.data.response[index].addressname,
+                                  city: snapshot
+                                      .data.data.response[index].addressname,
+                                  roomNo: snapshot.data.data.response[index]
+                                      .addressprofileHb,
+                                  mobile: snapshot.data.data.response[index]
+                                      .addressprofileMobile,
+                                  mail: snapshot.data.data.response[index]
+                                      .addressprofileMail,
+                                  governarate: snapshot.data.data
+                                      .response[index].addressprofileCity,
                                 ),
                               ),
                             );
@@ -255,9 +267,16 @@ class _MyOrderState extends State<MyOrder> {
                                                             .data
                                                             .response[index]
                                                             .ordersStatus ==
-                                                        '0'
-                                                    ? "pending"
-                                                    : "delivered",
+                                                        '1'
+                                                    ? "Processing"
+                                                    : snapshot
+                                                                .data
+                                                                .data
+                                                                .response[index]
+                                                                .ordersStatus ==
+                                                            '2'
+                                                        ? "Shipped"
+                                                        : "Delivered",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 13,

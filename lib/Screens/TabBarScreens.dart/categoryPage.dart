@@ -346,18 +346,16 @@ class RightBody extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: CachedNetworkImage(
-                                        imageUrl: "$imgurl" +
-                                            "${prod[index].productImage.split(',')[0]}",
-                                        placeholder: (context, url) => Center(
-                                            child: CircularProgressIndicator(
-                                          color: colorblue,
-                                        )),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                      ),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.fill,
+                                      imageUrl: "$imgurl" +
+                                          "${prod[index].productImage.split(',')[0]}",
+                                      placeholder: (context, url) => Center(
+                                          child: CircularProgressIndicator(
+                                        color: colorblue,
+                                      )),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
                                     ),
                                   ),
                                   Column(

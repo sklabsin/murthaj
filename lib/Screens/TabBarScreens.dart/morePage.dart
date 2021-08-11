@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:murthaji/Screens/MorePages/AboutUs.dart';
 import 'package:murthaji/Screens/MorePages/Address.dart';
 import 'package:murthaji/Screens/MorePages/CustomerCare.dart';

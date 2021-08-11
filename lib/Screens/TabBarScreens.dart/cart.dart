@@ -21,7 +21,7 @@ class _CartState extends State<Cart> {
   TextEditingController coupon = TextEditingController();
   CartListController cartListcontroller = Get.put(CartListController());
   @override
-  Future<void> initState() {
+  void initState() {
     // TODO: implement initState
     Future.delayed(Duration(microseconds: 5)).then((value) async {
       await cartListcontroller.fetchCartItemsList();
@@ -51,7 +51,7 @@ class _CartState extends State<Cart> {
               future: CartSectionApi().displayCart(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  var data = snapshot.data.data.response;
+                  // var data = snapshot.data.data.response;
                   return Column(
                     children: [
                       SizedBox(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:murthaji/Screens/landingPage.dart';
 import 'package:murthaji/Screens/tabScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
 
@@ -16,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 3)).then((value) async {
-      var pref = await SharedPreferences.getInstance();
+      // var pref = await SharedPreferences.getInstance();
       // (pref.getString('uid') == null)
       //     ? Navigator.pushAndRemoveUntil(
       //         context,

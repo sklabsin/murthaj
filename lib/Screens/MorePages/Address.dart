@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:murthaji/Api/api.dart';
 import 'package:murthaji/Model/addressModel.dart';
 import 'package:murthaji/Screens/add_address.dart';
@@ -70,7 +69,8 @@ class _AddressListState extends State<AddressList> {
                                           top: 10,
                                           bottom: 10),
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
+                                        border: Border.all(
+                                            color: Colors.grey.withOpacity(.8)),
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -106,11 +106,7 @@ class _AddressListState extends State<AddressList> {
                                             height: 10,
                                           ),
                                           Text(
-                                            data.response[index]
-                                                        .address_street +
-                                                    ", " +
-                                                    data.response[index]
-                                                        .address_city +
+                                            data.response[index].address_name +
                                                     ", " +
                                                     data.response[index]
                                                         .address_governarate ??
@@ -131,16 +127,12 @@ class _AddressListState extends State<AddressList> {
                                             children: [
                                               GestureDetector(
                                                 child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      right: 10,
-                                                      left: 10,
-                                                      top: 5,
-                                                      bottom: 5),
+                                                  padding: EdgeInsets.all(9),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.red[900],
+                                                    color: Colors.grey.shade500,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            2),
+                                                            50),
                                                   ),
                                                   child: Row(
                                                     children: [
@@ -149,18 +141,18 @@ class _AddressListState extends State<AddressList> {
                                                         size: 15,
                                                         color: Colors.white,
                                                       ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Text(
-                                                        'Edit',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
+                                                      // SizedBox(
+                                                      //   width: 4,
+                                                      // ),
+                                                      // Text(
+                                                      //   'Edit',
+                                                      //   style: TextStyle(
+                                                      //     color: Colors.white,
+                                                      //     fontSize: 14,
+                                                      //     fontWeight:
+                                                      //         FontWeight.w700,
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   ),
                                                 ),
@@ -183,15 +175,12 @@ class _AddressListState extends State<AddressList> {
                                               ),
                                               GestureDetector(
                                                 child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal: 5,
-                                                    vertical: 5,
-                                                  ),
+                                                  padding: EdgeInsets.all(9),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.red[900],
+                                                    color: Colors.grey.shade500,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            2),
+                                                            50),
                                                   ),
                                                   child: Row(
                                                     children: [
@@ -201,18 +190,18 @@ class _AddressListState extends State<AddressList> {
                                                         size: 15,
                                                         color: Colors.white,
                                                       ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      Text(
-                                                        'Remove',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                      ),
+                                                      // SizedBox(
+                                                      //   width: 4,
+                                                      // ),
+                                                      // Text(
+                                                      //   'Remove',
+                                                      //   style: TextStyle(
+                                                      //     color: Colors.white,
+                                                      //     fontSize: 14,
+                                                      //     fontWeight:
+                                                      //         FontWeight.w700,
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   ),
                                                 ),

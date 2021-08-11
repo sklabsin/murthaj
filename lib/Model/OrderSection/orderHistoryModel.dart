@@ -49,26 +49,38 @@ class Data {
 }
 
 class Response {
-  Response({
-    this.ordersId,
-    this.ordersUniqId,
-    this.ordersUserId,
-    this.ordersAdrsId,
-    this.ordersPaymode,
-    this.ordersTotalAmount,
-    this.ordersTotalOfferAmount,
-    this.ordersPromocode,
-    this.ordersTotalQty,
-    this.ordersDelcharge,
-    this.ordersSameDelcharge,
-    this.ordersInvoice,
-    this.ordersStatus,
-    this.ordersCancelStatus,
-    this.ordersDate,
-    this.ordersTime,
-    this.deliveryCharge,
-    this.orderItem,
-  });
+  Response(
+      {this.ordersId,
+      this.ordersUniqId,
+      this.ordersUserId,
+      this.ordersAdrsId,
+      this.ordersPaymode,
+      this.ordersTotalAmount,
+      this.ordersTotalOfferAmount,
+      this.ordersPromocode,
+      this.ordersTotalQty,
+      this.ordersDelcharge,
+      this.ordersSameDelcharge,
+      this.ordersInvoice,
+      this.ordersStatus,
+      this.ordersCancelStatus,
+      this.ordersDate,
+      this.ordersTime,
+      this.deliveryCharge,
+      this.addressprofileId,
+      this.addressprofileUserid,
+      this.addressprofileFname,
+      this.addressprofileLname,
+      this.addressprofileMail,
+      this.addressprofileMobile,
+      this.addressprofileCity,
+      this.addressprofileStreet,
+      this.addressprofileBlock,
+      this.addressprofileHb,
+      this.addressprofileAvenue,
+      this.addressprofileDate,
+      this.orderItems,
+      this.addressname});
 
   String ordersId;
   String ordersUniqId;
@@ -77,7 +89,7 @@ class Response {
   String ordersPaymode;
   String ordersTotalAmount;
   String ordersTotalOfferAmount;
-  dynamic ordersPromocode;
+  String ordersPromocode;
   String ordersTotalQty;
   String ordersDelcharge;
   String ordersSameDelcharge;
@@ -87,7 +99,20 @@ class Response {
   DateTime ordersDate;
   String ordersTime;
   String deliveryCharge;
-  List<OrderItems> orderItem;
+  String addressprofileId;
+  String addressprofileUserid;
+  String addressprofileFname;
+  String addressprofileLname;
+  String addressprofileMail;
+  String addressprofileMobile;
+  String addressprofileCity;
+  String addressprofileStreet;
+  String addressprofileBlock;
+  String addressprofileHb;
+  String addressprofileAvenue;
+  DateTime addressprofileDate;
+  String addressname;
+  List<OrderItems> orderItems;
 
   factory Response.fromJson(Map<String, dynamic> json) => Response(
         ordersId: json["orders_id"],
@@ -107,7 +132,20 @@ class Response {
         ordersDate: DateTime.parse(json["orders_date"]),
         ordersTime: json["orders_time"],
         deliveryCharge: json["delivery_charge"],
-        orderItem: List<OrderItems>.from(
+        addressprofileId: json["addressprofile_id"],
+        addressprofileUserid: json["addressprofile_userid"],
+        addressprofileFname: json["addressprofile_fname"],
+        addressprofileLname: json["addressprofile_lname"],
+        addressprofileMail: json["addressprofile_mail"],
+        addressprofileMobile: json["addressprofile_mobile"],
+        addressprofileCity: json["addressprofile_city"],
+        addressprofileStreet: json["addressprofile_street"],
+        addressprofileBlock: json["addressprofile_block"],
+        addressprofileHb: json["addressprofile_hb"],
+        addressprofileAvenue: json["addressprofile_avenue"],
+        addressname: json["address_name"],
+        addressprofileDate: DateTime.parse(json["addressprofile_date"]),
+        orderItems: List<OrderItems>.from(
             json["order_item"].map((x) => OrderItems.fromJson(x))),
       );
 
@@ -130,7 +168,21 @@ class Response {
             "${ordersDate.year.toString().padLeft(4, '0')}-${ordersDate.month.toString().padLeft(2, '0')}-${ordersDate.day.toString().padLeft(2, '0')}",
         "orders_time": ordersTime,
         "delivery_charge": deliveryCharge,
-        "order_item": List<dynamic>.from(orderItem.map((x) => x.toJson())),
+        "addressprofile_id": addressprofileId,
+        "addressprofile_userid": addressprofileUserid,
+        "addressprofile_fname": addressprofileFname,
+        "addressprofile_lname": addressprofileLname,
+        "addressprofile_mail": addressprofileMail,
+        "addressprofile_mobile": addressprofileMobile,
+        "addressprofile_city": addressprofileCity,
+        "addressprofile_street": addressprofileStreet,
+        "addressprofile_block": addressprofileBlock,
+        "addressprofile_hb": addressprofileHb,
+        "addressprofile_avenue": addressprofileAvenue,
+        "address_name": addressname,
+        "addressprofile_date":
+            "${addressprofileDate.year.toString().padLeft(4, '0')}-${addressprofileDate.month.toString().padLeft(2, '0')}-${addressprofileDate.day.toString().padLeft(2, '0')}",
+        "order_item": List<dynamic>.from(orderItems.map((x) => x.toJson())),
       };
 }
 
@@ -202,9 +254,9 @@ class OrderItems {
   String dcProdActualstoreprice;
   String dcTime;
   DateTime dcDate;
-  String dcShippedDate;
+  DcDate dcShippedDate;
   String dcShippedTime;
-  String dcDeliveryDate;
+  DcDate dcDeliveryDate;
   String dcDeliveryTime;
   String dcStatus;
   String orderStatus;
@@ -215,7 +267,7 @@ class OrderItems {
   String dcPaymentMode;
   String deliveryCharge;
   String dcProdGiftstat;
-  String dcProdGiftdate;
+  DcDate dcProdGiftdate;
   String dcProdGifttime;
   String dcProdGiftmsg;
   String dcProdGiftamount;
@@ -247,9 +299,9 @@ class OrderItems {
         dcProdActualstoreprice: json["dc_prod_actualstoreprice"],
         dcTime: json["dc_time"],
         dcDate: DateTime.parse(json["dc_date"]),
-        dcShippedDate: json["dc_shipped_date"],
+        dcShippedDate: dcDateValues.map[json["dc_shipped_date"]],
         dcShippedTime: json["dc_shipped_time"],
-        dcDeliveryDate: json["dc_delivery_date"],
+        dcDeliveryDate: dcDateValues.map[json["dc_delivery_date"]],
         dcDeliveryTime: json["dc_delivery_time"],
         dcStatus: json["dc_status"],
         orderStatus: json["order_status"],
@@ -260,7 +312,7 @@ class OrderItems {
         dcPaymentMode: json["dc_payment_mode"],
         deliveryCharge: json["delivery_charge"],
         dcProdGiftstat: json["dc_prod_giftstat"],
-        dcProdGiftdate: json["dc_prod_giftdate"],
+        dcProdGiftdate: dcDateValues.map[json["dc_prod_giftdate"]],
         dcProdGifttime: json["dc_prod_gifttime"],
         dcProdGiftmsg: json["dc_prod_giftmsg"],
         dcProdGiftamount: json["dc_prod_giftamount"],
@@ -294,9 +346,9 @@ class OrderItems {
         "dc_time": dcTime,
         "dc_date":
             "${dcDate.year.toString().padLeft(4, '0')}-${dcDate.month.toString().padLeft(2, '0')}-${dcDate.day.toString().padLeft(2, '0')}",
-        "dc_shipped_date": dcShippedDate,
+        "dc_shipped_date": dcDateValues.reverse[dcShippedDate],
         "dc_shipped_time": dcShippedTime,
-        "dc_delivery_date": dcDeliveryDate,
+        "dc_delivery_date": dcDateValues.reverse[dcDeliveryDate],
         "dc_delivery_time": dcDeliveryTime,
         "dc_status": dcStatus,
         "order_status": orderStatus,
@@ -307,7 +359,7 @@ class OrderItems {
         "dc_payment_mode": dcPaymentMode,
         "delivery_charge": deliveryCharge,
         "dc_prod_giftstat": dcProdGiftstat,
-        "dc_prod_giftdate": dcProdGiftdate,
+        "dc_prod_giftdate": dcDateValues.reverse[dcProdGiftdate],
         "dc_prod_gifttime": dcProdGifttime,
         "dc_prod_giftmsg": dcProdGiftmsg,
         "dc_prod_giftamount": dcProdGiftamount,
@@ -317,4 +369,22 @@ class OrderItems {
         "dc_prod_install_fee": dcProdInstallFee,
         "dc_prod_mrp": dcProdMrp,
       };
+}
+
+enum DcDate { THE_00000000 }
+
+final dcDateValues = EnumValues({"0000-00-00": DcDate.THE_00000000});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

@@ -21,8 +21,7 @@ class _WishListState extends State<WishList> {
   FavoritesListController favListcontroller =
       Get.put(FavoritesListController());
   @override
-  Future<void> initState() {
-    // TODO: implement initState
+  void initState() {
     Future.delayed(Duration(microseconds: 5)).then((value) async {
       await favListcontroller.fetchFavoritesList();
     });

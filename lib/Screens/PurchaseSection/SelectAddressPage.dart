@@ -21,7 +21,6 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
 
   @override
   Widget build(BuildContext context) {
-    String totalPrice = "100";
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -107,10 +106,12 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                         AsyncSnapshot<Address> snapshot) {
                       if (snapshot.hasData) {
                         var data = snapshot.data?.data;
-                        (selectedAddressId == null)
-                            ? selectedAddressId =
-                                snapshot.data.data.response[0].address_id
-                            : null;
+                        data.response.length == 0
+                            ? null
+                            : (selectedAddressId == null)
+                                ? selectedAddressId =
+                                    snapshot.data.data.response[0].address_id
+                                : null;
                         return data.response.length > 0
                             ? Container(
                                 padding: EdgeInsets.only(bottom: 10),
@@ -127,7 +128,7 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                                         borderRadius: BorderRadius.circular(5),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
+                                            color: Colors.grey.shade200,
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                           ),
@@ -138,55 +139,13 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                                             bottom: 10,
                                           ),
                                           child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Column(
+                                              Row(
                                                 children: [
-                                                  Text(
-                                                    "${data.response[index].address_fname}" +
-                                                            "  " +
-                                                            "${data.response[index].address_lname}" ??
-                                                        "",
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                      color: Color(
-                                                        0xff4a4b4d,
-                                                      ),
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Text(
-                                                    data.response[index]
-                                                            .address_city +
-                                                        ", " +
-                                                        data.response[index]
-                                                            .address_governarate,
-                                                    // maxLines: 2,
-                                                    style: TextStyle(
-                                                      color: Color(0xff4a4b4d),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                width: 30,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
                                                   Radio(
                                                     activeColor: colorblue,
                                                     value: index,
@@ -200,148 +159,155 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                                                       });
                                                     },
                                                   ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Navigator
-                                                              .pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  AddAddress(
-                                                                      check:
-                                                                          true),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  right: 10,
-                                                                  left: 10,
-                                                                  top: 5,
-                                                                  bottom: 5),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Colors.red[900],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        2),
+                                                      SizedBox(
+                                                        height: 15,
+                                                      ),
+                                                      Text(
+                                                        "${data.response[index].address_fname}" +
+                                                                "  " +
+                                                                "${data.response[index].address_lname}" ??
+                                                            "",
+                                                        maxLines: 2,
+                                                        style: TextStyle(
+                                                          color: Color(
+                                                            0xff4a4b4d,
                                                           ),
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.add,
-                                                                size: 15,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 4,
-                                                              ),
-                                                              Text(
-                                                                'Add',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
                                                       ),
                                                       SizedBox(
-                                                        width: 25,
+                                                        height: 10,
                                                       ),
-                                                      GestureDetector(
-                                                        onTap: () async {
-                                                          Navigator
-                                                              .pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  AddAddress(
-                                                                      data: data
-                                                                              .response[
-                                                                          index],
-                                                                      update:
-                                                                          true,
-                                                                      check:
-                                                                          true),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                            horizontal: 5,
-                                                            vertical: 5,
-                                                          ),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Colors.red[900],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        2),
-                                                          ),
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.edit,
-                                                                size: 15,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 4,
-                                                              ),
-                                                              Text(
-                                                                'Edit',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                                      Text(
+                                                        data.response[index]
+                                                                .address_name +
+                                                            ", " +
+                                                            data.response[index]
+                                                                .address_governarate,
+                                                        // maxLines: 2,
+                                                        style: TextStyle(
+                                                          color:
+                                                              Color(0xff4a4b4d),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                  // InkWell(
-                                                  //   onTap: () {
-                                                  //   },
-                                                  //   child: Text(
-                                                  //     'Edit',
-                                                  //     style: TextStyle(
-                                                  //       color:
-                                                  //           Color(0xff2682AB),
-                                                  //       fontSize: 14,
-                                                  //       fontWeight:
-                                                  //           FontWeight.bold,
-                                                  //     ),
-                                                  //   ),
-                                                  // ),
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddAddress(
+                                                                  check: true),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(7),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(50),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.add,
+                                                            size: 16,
+                                                            color: Colors.white,
+                                                          ),
+                                                          // SizedBox(
+                                                          //   width: 4,
+                                                          // ),
+                                                          // Text(
+                                                          //   'Add',
+                                                          //   style:
+                                                          //       TextStyle(
+                                                          //     color: Colors
+                                                          //         .white,
+                                                          //     fontSize: 14,
+                                                          //     fontWeight:
+                                                          //         FontWeight
+                                                          //             .w700,
+                                                          //   ),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddAddress(
+                                                                  data: data
+                                                                          .response[
+                                                                      index],
+                                                                  update: true,
+                                                                  check: true),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(7),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.edit,
+                                                            size: 15,
+                                                            color: Colors.white,
+                                                          ),
+                                                          // SizedBox(
+                                                          //   width: 4,
+                                                          // ),
+                                                          // Text(
+                                                          //   'Edit',
+                                                          //   style:
+                                                          //       TextStyle(
+                                                          //     color: Colors
+                                                          //         .white,
+                                                          //     fontSize: 14,
+                                                          //     fontWeight:
+                                                          //         FontWeight
+                                                          //             .w700,
+                                                          //   ),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ],
@@ -415,7 +381,10 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                     coupon: widget.coupon,
                   );
                   if (data.data.status == '200') {
-                    // print(data.data.response.comments);
+                    print(data.data.response.cartamount);
+                    double s = double.parse(data.data.response.cartamount) +
+                        data.data.response.deliveryCharge -
+                        data.data.response.discount;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -425,6 +394,7 @@ class _SelectAddressPageState extends State<SelectAddressPage> {
                           price: data.data.response.cartamount,
                           addr_id: selectedAddressId,
                           coupon: widget.coupon,
+                          totalprice: s,
                         ),
                       ),
                     );

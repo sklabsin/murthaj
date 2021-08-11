@@ -47,10 +47,13 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Expanded(
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            var data = await Home().productListing();
+                            print(data.data.message);
                             showSearch(
                               context: context,
-                              delegate: SearchItems(),
+                              delegate:
+                                  SearchItems(data.data.response.products),
                             );
                           },
                           child: Container(
@@ -696,20 +699,20 @@ class _LandingState extends State<Landing> {
 }
 
 class SearchItems extends SearchDelegate<String> {
-  SearchItems();
-  List items = [
-    'Light',
-    'Tube',
-    "fan",
-    "switch",
-    "switch-2",
-    "Fan-2",
-    "Fan-3",
-  ];
-  List recentlist = ["fan-2", "switch", "tube"];
+  SearchItems(this.productList);
+  List productList;
+  // List items = [
+  //   'Light',
+  //   'Tube',
+  //   "fan",
+  //   "switch",
+  //   "switch-2",
+  //   "Fan-2",
+  //   "Fan-3",
+  // ];
+  // List recentlist = ["fan-2", "switch", "tube"];
   @override
   List<Widget> buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
         onPressed: () {
@@ -722,7 +725,6 @@ class SearchItems extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
     return IconButton(
       onPressed: () {
         close(context, null);
@@ -734,53 +736,50 @@ class SearchItems extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
     return FutureBuilder<MostPopularClass>(
-        future: Home().searchProductApi(keyword: query),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Container(
-              color: colorblue.withOpacity(.2),
-              width: double.infinity,
-              height: height(context),
-              padding: EdgeInsets.only(left: 17, right: 17, top: 20),
-              child: GridView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data.data.response.length,
-                // itemCount: 6,
-                physics: AlwaysScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: ScreenSize.gridRatio(context),
-                ),
-                itemBuilder: (context, int index) {
-                  return CardWidget(
-                    data: snapshot.data.data.response[index],
-                  );
-                },
+      future: Home().searchProductApi(keyword: query),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            color: colorblue.withOpacity(.2),
+            width: double.infinity,
+            height: height(context),
+            padding: EdgeInsets.only(left: 17, right: 17, top: 20),
+            child: GridView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: snapshot.data.data.response.length,
+              // itemCount: 6,
+              physics: AlwaysScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+                crossAxisCount: 2,
+                childAspectRatio: ScreenSize.gridRatio(context),
               ),
-            );
-          } else {
-            return Container(child: Center(child: CircularProgressIndicator()));
-          }
-        });
+              itemBuilder: (context, int index) {
+                return CardWidget(
+                  data: snapshot.data.data.response[index],
+                );
+              },
+            ),
+          );
+        } else {
+          return Container(child: Center(child: CircularProgressIndicator()));
+        }
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    final list = query.isEmpty
-        ? recentlist
-        : items
-            .where(
-              (p) => p.toLowerCase().startsWith(
-                    query.toLowerCase(),
-                  ),
-            )
-            .toList();
+    final list = productList
+        .where(
+          (p) => p.toLowerCase().contains(
+                query.toLowerCase(),
+              ),
+        )
+        .toList();
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (context, index) {

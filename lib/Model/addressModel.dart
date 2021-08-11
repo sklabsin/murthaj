@@ -36,8 +36,10 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         status: json["status"],
-        response: List<AddressResponse>.from(
-            json["response"].map((x) => AddressResponse.fromJson(x))),
+        response: json["status"] != '200'
+            ? []
+            : List<AddressResponse>.from(
+                json["response"].map((x) => AddressResponse.fromJson(x))),
         message: json["message"],
       );
 
@@ -65,6 +67,7 @@ class AddressResponse {
       this.address_mail,
       this.address_mobile1,
       this.address_mobile2,
+      this.address_name,
       this.address_date});
 
   String address_id;
@@ -83,6 +86,7 @@ class AddressResponse {
   String address_mobile1;
   String address_mobile2;
   String address_date;
+  String address_name;
 
   factory AddressResponse.fromJson(Map<String, dynamic> json) =>
       AddressResponse(
@@ -102,6 +106,7 @@ class AddressResponse {
         address_mobile1: json["address_mobile1"] ?? "",
         address_mobile2: json["address_mobile2"] ?? "",
         address_date: json["address_date"] ?? "",
+        address_name: json["city_name"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -121,5 +126,6 @@ class AddressResponse {
         "address_mobile1": address_mobile1,
         "address_mobile2": address_mobile2,
         "address_date": address_date,
+        "city_name": address_name,
       };
 }
